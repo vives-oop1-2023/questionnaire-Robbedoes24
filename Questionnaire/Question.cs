@@ -4,7 +4,7 @@ namespace QuestionnaireLibrary
 {
     public class Question : IQuestionHandler
     {
-        private Question() { }
+        public Question() { }
 
         public Question(string text)
         {
@@ -47,14 +47,6 @@ namespace QuestionnaireLibrary
             return answers.Count;
         }
 
-        // Static methode that returns a question that has been fetched using the TriviaApiLibrary
-        public static Question GetRandomQuestion()
-        {
-            Question question = new Question();
-            await TriviaApiRequester.RequestRandomQuestion(question);
-            return question;
-        }
-
         // Implement ProcessQuestion methode of IQuestionHandler
         public void ProcessQuestion(TriviaMultipleChoiceQuestion jsonQuestion)
         {
@@ -74,13 +66,13 @@ namespace QuestionnaireLibrary
         public string Text
         {
             get { return text; }
-            private set { text = value; }
+            set { text = value; }
         }
 
         public string ImageUrl
         {
             get { return imageURL; }
-            private set { imageURL = value; }
+            set { imageURL = value; }
         }
 
 

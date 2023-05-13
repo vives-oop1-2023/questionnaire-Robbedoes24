@@ -18,6 +18,10 @@
         <Color x:Key="Darkgray4">#383a40</Color>
 
         <!-- Defining which part of the ui use what color -->
+        <SolidColorBrush x:Key="Button.Answer.Right" Color="{StaticResource Green}" />
+        <SolidColorBrush x:Key="Button.Answer.Wrong" Color="{StaticResource Red}" />
+
+        <!-- (old) Defining which part of the ui use what color -->
         <SolidColorBrush x:Key="About.Title.Color" Color="{StaticResource White}"/>
         <SolidColorBrush x:Key="About.Value.Color" Color="{StaticResource White}"/>
         <SolidColorBrush x:Key="About.Value.Background" Color="{StaticResource Darkgray4}"/>

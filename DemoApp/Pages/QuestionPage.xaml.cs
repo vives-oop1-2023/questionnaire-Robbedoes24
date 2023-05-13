@@ -65,14 +65,14 @@ namespace DemoApp.Pages
             if (answer.IsCorrect)
             {
                 // add points to player score
-                                
+
                 // Change background to green
-                //button.Background = this.FindResource("") as SolidColorBrush; // TODO Test
+                button.Background = this.FindResource("Button.Answer.Right") as SolidColorBrush; // TODO Test
             }
             else
             {
                 // change background to red
-                //button.Background = this.FindResource("") as SolidColorBrush;
+                button.Background = this.FindResource("Button.Answer.Wrong") as SolidColorBrush;
             }
 
             // Call question answered event

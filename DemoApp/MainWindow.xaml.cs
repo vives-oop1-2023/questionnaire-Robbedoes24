@@ -21,7 +21,7 @@ namespace WPFFractionCalculator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IQuestionHandler
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
@@ -41,19 +41,17 @@ namespace WPFFractionCalculator
             NextQuestion();
         }
 
-        private void NextQuestion()
+        private async void NextQuestion()
         {
             // Increase question number
             questionNumber++;
 
+            // Fetch question and add handler 
+            Question question = new Question();
+            await TriviaApiRequester.RequestRandomQuestion(question);
 
-            // Create question
-
-            Question question = new Question($"{questionNumber}: Is this a test?");
-            question.AddAnswer(new Answer("Yes", true));
-            question.AddAnswer(new Answer("No", false));
-            question.AddAnswer(new Answer("How would i know", false));
-            question.AddAnswer(new Answer("Maybe", false));
+            // Randomize question order
+            //TODO: implement methode in question class
 
             // Create new question page and navigate to it
             questionPage = new QuestionPage(question);
@@ -63,8 +61,15 @@ namespace WPFFractionCalculator
             questionPage.QuestionAnswered += new EventHandler(GameLoop);
         }
 
-        private void GameLoop(object sender, EventArgs e)
+        private async void GameLoop(object sender, EventArgs e)
         {
+            // Wait 3 seconds so the user can see if answer was right or not 
+            if(questionNumber != 0)
+            {
+                await Task.Delay(3000);
+            }
+
+            // See if we should give a new question or end the game
             if (questionNumber >= maxQuestions)
             {
                 EndGame();
