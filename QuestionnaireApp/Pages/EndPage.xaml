@@ -1,15 +1,15 @@
-﻿<Page x:Class="DemoApp.Pages.EndPage"
+﻿<Page x:Class="QuestionnaireApp.Pages.EndPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DemoApp.Pages"
+      xmlns:local="clr-namespace:QuestionnaireApp.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EndPage">
 
     <Grid
-        Background="{StaticResource Page.Background}"
+        
     >
         <Grid.ColumnDefinitions>
             <!-- Content -->
@@ -19,25 +19,30 @@
         <Grid.RowDefinitions>
             <!-- Scoreboard -->
             <RowDefinition Height="*"/>
-            <!-- MainMenuButton -->
+            <!-- MainMenu Button -->
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-
+        
         <!-- Scoreboard -->
-        <TextBlock
+        <StackPanel
             Grid.Column="0"
             Grid.Row="0"
-            Name="Score"
-            Text="0"
-        />
+            x:Name="Scoreboard" 
+        >
+            <TextBlock
+                x:Name="ScoreboardHeader"
+                Text="Place - Playername - Score"
+            />
+        </StackPanel>
 
-        <!-- MainMenuButton -->
+        <!-- MainMenu Button -->
         <Button
             Grid.Column="0"
             Grid.Row="1"
-            Name="MainMenu"
-            Content="MainMenu"
+            x:Name="MainMenuButton"
+            Content="Main Menu"
             Click="OnClickMainMenu"
         />
+
     </Grid>
 </Page>

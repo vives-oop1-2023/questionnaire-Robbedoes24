@@ -13,26 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DemoApp.Pages
+namespace QuestionnaireApp.Pages
 {
     /// <summary>
-    /// Interaction logic for EndPage.xaml
+    /// Interaction logic for LoadingPage.xaml
     /// </summary>
-    public partial class EndPage : Page
+    public partial class LoadingPage : Page
     {
-        public EndPage(int score)
+        public LoadingPage()
         {
             InitializeComponent();
-            Score.Text = $"Score: {score}";
         }
-
-        void OnClickMainMenu(object sender, RoutedEventArgs e)
-        {
-            // Call to main menu event
-            ToMainMenu(this, e);
-        }
-
-        // Create event that will be called when start button is pressed
-        public event EventHandler ToMainMenu;
     }
 }

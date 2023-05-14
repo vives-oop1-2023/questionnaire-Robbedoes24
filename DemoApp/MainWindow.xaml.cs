@@ -29,13 +29,13 @@ namespace WPFFractionCalculator
             // Go to the mainpage
             frame.NavigationService.Navigate(mainPage);
             // subscribe to event from mainPage and call methode when event is called (wait till start button is pressed)
-            mainPage.StartGame += new EventHandler(StartGame);
+            mainPage.StartGame += new EventHandler(GameLoop);
         }
 
         private void StartGame(object sender, EventArgs e)
         {
-            // Initialize data
-            questionNumber = 0;
+            // Sets difficulty
+            // TODO: Get difficulty from start page
 
             // Create first question
             NextQuestion();
@@ -43,58 +43,68 @@ namespace WPFFractionCalculator
 
         private async void NextQuestion()
         {
-            // Increase question number
-            questionNumber++;
-
-            // Fetch question and add handler 
+            // Fetch question and add handler
             Question question = new Question();
             await TriviaApiRequester.RequestRandomQuestion(question);
 
             // Randomize question order
-            //TODO: implement methode in question class
+            question.RandomizeAnswers();
+
+            // Increase question number
+            questionNumber++;
 
             // Create new question page and navigate to it
             questionPage = new QuestionPage(question);
             frame.NavigationService.Navigate(questionPage);
 
             // subscribe to event from questionpage and call methode when event is called (wait till question is answered)
-            questionPage.QuestionAnswered += new EventHandler(GameLoop);
+            questionPage.QuestionAnswered += new EventHandler<QuestionAnsweredEventArgs>(GameLoop);
         }
 
-        private async void GameLoop(object sender, EventArgs e)
+        private void GameLoop(object sender, QuestionAnsweredEventArgs e)
         {
-            // Wait 3 seconds so the user can see if answer was right or not 
-            if(questionNumber != 0)
+            if (questionNumber == 0)
             {
-                await Task.Delay(3000);
+                // Get first question
+                NextQuestion();
+            }
+            else if ()
+            // Wait 2 seconds so the user can see if answer was right or not 
+            //if(questionNumber != 1)
+            //{
+            //    await Task.Delay(2000);
+            //}
+
+            // TODO: Get is answer was correct from question page and add points for player
+            if(e.AnsweredCorrectly)
+            {
+                playerPoints += pointsPerCorrectAnswer;
             }
 
             // See if we should give a new question or end the game
-            if (questionNumber >= maxQuestions)
-            {
-                EndGame();
-            }
-            else
+            if (questionNumber < amountOfQuestions)
             {
                 NextQuestion();
             }
-        }
+            else // end the game
+            {
+                // save score to file
 
-        private void EndGame()
-        {
-            // save score to file
+                // go to endpage
+                endPage = new EndPage(playerPoints);
+                frame.NavigationService.Navigate(endPage);
 
-            // go to endpage
-            frame.NavigationService.Navigate(endPage);
-
-            // subscribe to event from endpage and call methode when event is called (wait till mainmenu button is pressed)
-            endPage.ToMainMenu += new EventHandler(ResetGame);
+                // subscribe to event from endpage and call methode when event is called (wait till mainmenu button is pressed)
+                endPage.ToMainMenu += new EventHandler(ResetGame);
+            }
         }
 
         private void ResetGame(object sender, EventArgs e)
         {
             // Reset game data
             questionNumber = 0;
+            playerName = "";
+            playerPoints = 0;
 
             // Go to the mainpage
             frame.NavigationService.Navigate(mainPage);
@@ -119,13 +129,34 @@ namespace WPFFractionCalculator
         }
 
         // Game data
-        private readonly int maxQuestions = 4;
         private int questionNumber = 0;
+        private int playerPoints = 0;
+        private string playerName = "";
+
+        // Game settings
+        private int pointsPerCorrectAnswer = 100;
+        private readonly int amountOfQuestions = 4;
 
         // Store pages
         private QuestionPage questionPage; // TODO: Fix not nullable
-        private readonly EndPage endPage = new EndPage();
+        private EndPage endPage; // TODO: Fix not nullable
         private readonly MainPage mainPage = new MainPage();
         //private readonly AboutPage aboutPage = new AboutPage();
+
+
+
+
+        private void GameLoop()
+        {
+
+
+
+        }
+
+
+
+
+
+
     }
 }

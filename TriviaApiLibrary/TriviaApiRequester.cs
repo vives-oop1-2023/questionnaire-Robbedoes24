@@ -32,12 +32,12 @@ namespace TriviaApiLibrary
             return result;
         }
 
-        public static async Task RequestRandomQuestion(IQuestionHandler handler)
+        public static async Task RequestRandomQuestion(IQuestionHandler handler, Difficulty difficulty)
         {
             // Call asynchronous network methods in a try/catch block to handle exceptions.
             try
             {
-                string responseBody = await client.GetStringAsync("https://the-trivia-api.com/v2/questions?types=text_choice&difficulty=easy&limit=1");
+                string responseBody = await client.GetStringAsync($"https://the-trivia-api.com/v2/questions?types=text_choice&difficulties={difficulty}&limit=1");
 
                 Trace.WriteLine(responseBody);
 

@@ -13,9 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPFFractionCalculator;
 
-namespace DemoApp.Pages
+namespace QuestionnaireApp.Pages
 {
     /// <summary>
     /// Interaction logic for QuestionPage.xaml
@@ -40,7 +39,7 @@ namespace DemoApp.Pages
                 Answer? answer = question.GetAnswer(i);
 
                 // Break if answer is null
-                if (answer == null){break;}
+                if (answer == null) { break; }
 
                 // add a new button to answer list stackpanel
                 Button button = new Button();
@@ -58,37 +57,38 @@ namespace DemoApp.Pages
         {
             Button? button = sender as Button;
             // TODO: Return exeption if button is null
-            
+
             Answer? answer = button.Tag as Answer;
             // TODO: Return exeption if answer is null
 
             // Create var to store if question was answered correctly
-            bool AnsweredCorrectly = false;
+            bool answeredCorrectly = false;
 
             if (answer.IsCorrect)
             {
                 // Set AnsweredCorrectly to true
-                AnsweredCorrectly = true;
+                answeredCorrectly = true;
 
                 // Change background to green
-                button.Background = this.FindResource("Button.Answer.Right") as SolidColorBrush;
+                //button.Background = this.FindResource("Button.Answer.Right") as SolidColorBrush;
             }
             else
             {
                 // change background to red
-                button.Background = this.FindResource("Button.Answer.Wrong") as SolidColorBrush;
+                //button.Background = this.FindResource("Button.Answer.Wrong") as SolidColorBrush;
             }
 
             // Call question answered event
-            QuestionAnswered(this, new QuestionAnsweredEventArgs(AnsweredCorrectly));
+            QuestionAnswered(this, new QuestionAnsweredEventArgs(answeredCorrectly));
         }
 
-        // Create event that will be called when question is answered
+        // Create eventhandler that will be called when question is answered
         public event EventHandler<QuestionAnsweredEventArgs> QuestionAnswered;
     }
+
     public class QuestionAnsweredEventArgs : EventArgs
     {
-        public QuestionAnsweredEventArgs(bool AnsweredCorrectly) 
+        public QuestionAnsweredEventArgs(bool AnsweredCorrectly)
         {
             this.AnsweredCorrectly = AnsweredCorrectly;
         }
@@ -98,3 +98,4 @@ namespace DemoApp.Pages
         private bool answeredCorrectly;
     }
 }
+

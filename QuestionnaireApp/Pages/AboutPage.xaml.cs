@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,26 +14,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DemoApp.Pages
+namespace QuestionnaireApp.Pages
 {
     /// <summary>
-    /// Interaction logic for EndPage.xaml
+    /// Interaction logic for AboutPage.xaml
     /// </summary>
-    public partial class EndPage : Page
+    public partial class AboutPage : Page
     {
-        public EndPage(int score)
+        public AboutPage()
         {
             InitializeComponent();
-            Score.Text = $"Score: {score}";
         }
 
-        void OnClickMainMenu(object sender, RoutedEventArgs e)
+        void ClickOnLink(object sender, RoutedEventArgs e)
         {
-            // Call to main menu event
-            ToMainMenu(this, e);
+            string link = "https://github.com/vives-oop1-2023/questionnaire-Robbedoes24";
+            Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
         }
-
-        // Create event that will be called when start button is pressed
-        public event EventHandler ToMainMenu;
     }
 }

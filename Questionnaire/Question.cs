@@ -47,6 +47,18 @@ namespace QuestionnaireLibrary
             return answers.Count;
         }
 
+        public void RandomizeAnswers()
+        {
+            Random gen = new Random();
+            for (int i = CountAnswers() - 1; i > 0; i--)
+            {
+                var k = gen.Next(i + 1);
+                var value = answers[k];
+                answers[k] = answers[i];
+                answers[i] = value;
+            }
+        }
+
         // Implement ProcessQuestion methode of IQuestionHandler
         public void ProcessQuestion(TriviaMultipleChoiceQuestion jsonQuestion)
         {
