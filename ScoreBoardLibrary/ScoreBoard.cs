@@ -1,4 +1,6 @@
-﻿namespace ScoreBoardLibrary
+﻿using System.Text.Json;
+
+namespace ScoreBoardLibrary
 {
     public class ScoreBoard
     {
@@ -17,12 +19,17 @@
             scores.Sort((x,y) => y.Points.CompareTo(x.Points));        
         }
 
+        public int CountScores()
+        { 
+            return scores.Count; 
+        }
+
         public override string ToString()
         {
             return TopScoresString(scores.Count);
         }
 
-        public string TopScoresString(int amountOfScores = 3)
+        public string TopScoresString(int amountOfScores)
         {
             // Make sure scores are sorted
             SortScores();
@@ -50,7 +57,7 @@
             return output;
         }
 
-        public List<Score> TopScores(int amountOfScores = 3)
+        public List<Score> TopScores(int amountOfScores)
         {
             // Make sure scores are sorted
             SortScores();
@@ -72,6 +79,29 @@
             return topScores;
         }
 
-        private readonly List<Score> scores = new();
+        public void LoadFromFile(string filename)
+        {
+            if (!File.Exists(filename))
+            {
+                return;
+            }
+
+            try
+            {
+                string jsonString = File.ReadAllText(filename);
+                scores = JsonSerializer.Deserialize<List<Score>>(jsonString);
+            }
+            catch { return; }
+        }
+
+        public void SaveToFile(string filename)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(scores, options);
+
+            File.WriteAllText(filename, jsonString);
+        }
+
+        private List<Score> scores = new List<Score>();
     }
 }

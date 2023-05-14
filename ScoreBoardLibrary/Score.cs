@@ -24,7 +24,7 @@ namespace ScoreBoardLibrary
 
         public override string ToString()
         {
-            return $"{name} {points}";
+            return $"{Name}: {Points}";
         }
 
         public void AddPoints (int points)
@@ -32,10 +32,7 @@ namespace ScoreBoardLibrary
             Points += points;
         }
 
-        public string? Name { get; private set; }
-        public int Points { get; private set; }
-
-        private string name = "";
-        private int points = 0;
+        public string Name { get; set; }
+        public int Points { get; set; }
     }
 }
