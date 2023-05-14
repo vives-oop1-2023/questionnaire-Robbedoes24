@@ -3,8 +3,11 @@ using QuestionnaireLibrary;
 using ScoreBoardLibrary;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,10 +31,15 @@ namespace QuestionnaireApp
         public MainWindow()
         {
             InitializeComponent();
+            // Load previous scores into scoreboard (from file)
+            scoreBoard.LoadFromFile(scoreBoardFilePath);
+            // Add Handler for window close event
+            Closing += MainWindow_Closing;
+            // Start Gameloop
             GameLoop();
         }
 
-        async void GameLoop()
+        private async void GameLoop()
         {
             // Loop Game logic till window is closed
             while (true)
@@ -39,7 +47,7 @@ namespace QuestionnaireApp
                 if (currentQuestion == 0)
                 {
                     await StartGame();
-                    await FetchQuestions();
+                    await LoadData();
                     currentQuestion = 1;
                 }
                 else if (currentQuestion <= amountOfQuestions)
@@ -56,7 +64,7 @@ namespace QuestionnaireApp
             }
         }
 
-        Task<bool> StartGame()
+        private Task<bool> StartGame()
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
             // Methode to process StartPageEvents
@@ -80,8 +88,7 @@ namespace QuestionnaireApp
             return tcs.Task;
         }
 
-
-        async Task LoadData()
+        private async Task LoadData()
         {
             // Create new loading page
             LoadingPage loadingPage = new LoadingPage();
@@ -91,18 +98,11 @@ namespace QuestionnaireApp
             // Get Questions
             await FetchQuestions();
 
-            // TODO Fetch scoreboard data from json file only on first run
-
             return;
         }
 
-        async Task FetchQuestions()
+        private async Task FetchQuestions()
         {
-            // Create new loading page
-            LoadingPage loadingPage = new LoadingPage();
-            // Go to the loadingpage
-            PageFrame.NavigationService.Navigate(loadingPage);
-
             // Fetch a question for amountOfQuestions
             for (int i = 0; i < amountOfQuestions; i++)
             {
@@ -117,7 +117,7 @@ namespace QuestionnaireApp
             return;
         }
 
-        Task<bool> NextQuestion()
+        private Task<bool> NextQuestion()
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
             // Methode to process QuestionPageEvents
@@ -156,7 +156,7 @@ namespace QuestionnaireApp
             return tcs.Task;
         }
 
-        Task<bool> EndGame()
+        private Task<bool> EndGame()
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
             // Methode to process EndPageEvents
@@ -179,13 +179,21 @@ namespace QuestionnaireApp
             return tcs.Task;
         }
 
-        void ResetGameData()
+        private void ResetGameData()
         {
             score = new Score();
             currentQuestion = 0;
             questions = new List<Question>();
         }
 
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            // Save Scoreboard data to file
+            if (scoreBoard.CountScores() > 0)
+            {
+                scoreBoard.SaveToFile(scoreBoardFilePath);
+            }
+        }
 
         // Game Settings
         private readonly int amountOfQuestions = 4;
@@ -194,6 +202,7 @@ namespace QuestionnaireApp
         private readonly double easyScoreMultiplier = 0.5;
         private readonly double mediumScoreMultiplier = 1;
         private readonly double hardScoreMultiplier = 1.5;
+        private readonly string scoreBoardFilePath = "scoreboard.json";
 
         // Game Data
             // Should be reset on game end
