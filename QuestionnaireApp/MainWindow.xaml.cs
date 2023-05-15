@@ -33,8 +33,6 @@ namespace QuestionnaireApp
             InitializeComponent();
             // Load previous scores into scoreboard (from file)
             scoreBoard.LoadFromFile(scoreBoardFilePath);
-            // Add Handler for window close event
-            Closing += MainWindow_Closing;
             // Start Gameloop
             GameLoop();
         }
@@ -186,15 +184,6 @@ namespace QuestionnaireApp
             questions = new List<Question>();
         }
 
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
-        {
-            // Save Scoreboard data to file
-            if (scoreBoard.CountScores() > 0)
-            {
-                scoreBoard.SaveToFile(scoreBoardFilePath);
-            }
-        }
-
         // Game Settings
         private readonly int amountOfQuestions = 4;
         private readonly int scoreboardScores = 5;
@@ -212,5 +201,14 @@ namespace QuestionnaireApp
             // Should not be cleared on game end
         private ScoreBoard scoreBoard = new ScoreBoard();
         private Difficulty difficulty = Difficulty.easy;
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            // Save Scoreboard data to file
+            if (scoreBoard.CountScores() > 0)
+            {
+                scoreBoard.SaveToFile(scoreBoardFilePath);
+            }
+        }
     }
 }
