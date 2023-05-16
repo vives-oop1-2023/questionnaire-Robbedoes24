@@ -1,4 +1,5 @@
-﻿using QuestionnaireApp.Pages;
+﻿using GameLibrary;
+using QuestionnaireApp.Pages;
 using QuestionnaireLibrary;
 using ScoreBoardLibrary;
 using System;
@@ -42,21 +43,24 @@ namespace QuestionnaireApp
             // Loop Game logic till window is closed
             while (true)
             {
-                if (currentQuestion == 0)
+                if (game.State == GameState.uninitialized)
                 {
                     await StartGame();
-                    await LoadData();
-                    currentQuestion = 1;
                 }
-                else if (currentQuestion <= amountOfQuestions)
+
+                if (game.State == GameState.loading)
+                {
+                    await LoadData();
+                }
+
+                if (game.State == GameState.playing)
                 {
                     await NextQuestion();
-                    currentQuestion++;
                 }
-                else
+
+                if (game.State == GameState.ending)
                 {
                     await EndGame();
-                    // Reset Game Data
                     ResetGameData();
                 }
             }
@@ -68,10 +72,9 @@ namespace QuestionnaireApp
             // Methode to process StartPageEvents
             void ProcessStartEvent(object sender, StartGameEventArgs e)
             {
-                // Create new score with playername
-                score = new Score(e.PlayerName);
-                // Set difficulty to selected difficulty
-                difficulty = e.Difficulty;
+                // Create a new game
+                game.Initialize(e.PlayerName, e.Difficulty);
+
                 // Mark task as done
                 tcs.SetResult(true);
             }
@@ -185,22 +188,26 @@ namespace QuestionnaireApp
         }
 
         // Game Settings
-        private readonly int amountOfQuestions = 4;
-        private readonly int scoreboardScores = 5;
-        private readonly int scoreCorrectAnswer = 100;
-        private readonly double easyScoreMultiplier = 0.5;
-        private readonly double mediumScoreMultiplier = 1;
-        private readonly double hardScoreMultiplier = 1.5;
-        private readonly string scoreBoardFilePath = "scoreboard.json";
+//        private readonly int amountOfQuestions = 4;
+//        private readonly int scoreboardScores = 5;
+//        private readonly int scoreCorrectAnswer = 100;
+//        private readonly double easyScoreMultiplier = 0.5;
+//        private readonly double mediumScoreMultiplier = 1;
+//        private readonly double hardScoreMultiplier = 1.5;
+//        private readonly string scoreBoardFilePath = "scoreboard.json";
 
         // Game Data
             // Should be reset on game end
-        private Score score = new Score();
-        private int currentQuestion = 0;
-        private List<Question> questions = new List<Question>();
+//        private Score score = new Score();
+//        private int currentQuestion = 0;
+//        private List<Question> questions = new List<Question>();
             // Should not be cleared on game end
-        private ScoreBoard scoreBoard = new ScoreBoard();
-        private Difficulty difficulty = Difficulty.easy;
+//        private ScoreBoard scoreBoard = new ScoreBoard();
+//        private Difficulty difficulty = Difficulty.easy;
+
+
+
+        private Game game = new Game();
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
