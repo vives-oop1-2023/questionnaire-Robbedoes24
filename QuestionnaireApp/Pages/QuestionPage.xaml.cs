@@ -1,5 +1,4 @@
-﻿using QuestionnaireLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GameLibrary;
 
 namespace QuestionnaireApp.Pages
 {
@@ -61,25 +61,8 @@ namespace QuestionnaireApp.Pages
             Answer? answer = button.Tag as Answer;
             // TODO: Return exeption if answer is null
 
-            // Create var to store if question was answered correctly
-            bool answeredCorrectly = false;
-
-            if (answer.IsCorrect)
-            {
-                // Set AnsweredCorrectly to true
-                answeredCorrectly = true;
-
-                // Change background to green
-                //button.Background = this.FindResource("Button.Answer.Right") as SolidColorBrush;
-            }
-            else
-            {
-                // change background to red
-                //button.Background = this.FindResource("Button.Answer.Wrong") as SolidColorBrush;
-            }
-
             // Call question answered event
-            QuestionAnswered(this, new QuestionAnsweredEventArgs(answeredCorrectly));
+            QuestionAnswered(this, new QuestionAnsweredEventArgs(answer));
         }
 
         // Create eventhandler that will be called when question is answered
@@ -88,14 +71,12 @@ namespace QuestionnaireApp.Pages
 
     public class QuestionAnsweredEventArgs : EventArgs
     {
-        public QuestionAnsweredEventArgs(bool AnsweredCorrectly)
+        public QuestionAnsweredEventArgs(Answer selectedAnswer)
         {
-            this.AnsweredCorrectly = AnsweredCorrectly;
+            SelectedAnswer = selectedAnswer;
         }
 
-        public bool AnsweredCorrectly { get; private set; }
-
-        private bool answeredCorrectly;
+        public Answer SelectedAnswer { get; private set; }
     }
 }
 

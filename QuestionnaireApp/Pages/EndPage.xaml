@@ -5,11 +5,66 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:QuestionnaireApp.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="800" UseLayoutRounding="True"
       Title="EndPage">
 
+    <Page.Resources>
+        <Style x:Key="Leaderboard.Title" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="4"/>
+        </Style>
+
+        <Style x:Key="Leaderboard.List.Element" TargetType="Border">
+            <!--TODO: Change-->
+            <Setter Property="Background" Value="{StaticResource Page.Background}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Margin" Value="10,0,10,10"/>
+        </Style>
+
+        <Style x:Key="Leaderboard.List.Element.Text" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <!--TODO: Change-->
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="4"/>
+        </Style>
+
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Background" Value="{StaticResource EndPage.Button.Menu}"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Margin" Value="6"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="{StaticResource CornerRadius}"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource Button.Answer.Right}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
     <Grid
-        
+        Background="{StaticResource Page.Background}"
     >
         <Grid.ColumnDefinitions>
             <!-- Content -->
@@ -17,32 +72,44 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <!-- Scoreboard -->
+            <!-- Leaderboard -->
+            <RowDefinition Height="auto"/>
+            <!-- Void -->
             <RowDefinition Height="*"/>
             <!-- MainMenu Button -->
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
-        <!-- Scoreboard -->
-        <StackPanel
+        <!-- Leaderboard -->
+        <Border
+            CornerRadius="10"
+            Background="{StaticResource EndPage.Leaderboard.Header.Background}"
+            Margin="6"
+        >
+            <StackPanel
             Grid.Column="0"
             Grid.Row="0"
-            x:Name="Scoreboard" 
         >
-            <TextBlock
-                x:Name="ScoreboardHeader"
-                Text="Place - Playername - Score"
+                <TextBlock
+                x:Name="LeaderboardHeader"
+                Text="Leaderboard"
+                Style="{StaticResource Leaderboard.Title}"
             />
-        </StackPanel>
+
+                <StackPanel
+                x:Name="LeaderboardList" 
+            />
+            </StackPanel>
+        </Border>
 
         <!-- MainMenu Button -->
         <Button
             Grid.Column="0"
-            Grid.Row="1"
+            Grid.Row="2"
             x:Name="MainMenuButton"
             Content="Main Menu"
             Click="OnClickMainMenu"
+            Style="{StaticResource MenuButton}"
         />
-
     </Grid>
 </Page>

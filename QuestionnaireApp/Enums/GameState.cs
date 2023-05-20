@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameLibrary
+namespace QuestionnaireApp
 {
-    public enum GameState
+    public enum AppState
     {
         unknown,
-        uninitialized, 
-        initialized,
-        ended
+        starting,
+        loading,
+        answering,
+        answered,
+        ending
     }
 }

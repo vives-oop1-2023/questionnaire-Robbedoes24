@@ -46,7 +46,7 @@ namespace GameLibrary
             Score = 0 ;
         }
 
-        public string Name { get; private set; }
-        public int Score { get; private set; }
+        public string Name { get; set; }
+        public int Score { get; set; }
     }
 }

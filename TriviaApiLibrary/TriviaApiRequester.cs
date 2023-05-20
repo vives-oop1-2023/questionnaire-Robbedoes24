@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using GameLibrary;
 
 namespace TriviaApiLibrary
 {

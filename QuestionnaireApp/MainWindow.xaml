@@ -6,8 +6,19 @@
         xmlns:local="clr-namespace:QuestionnaireApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
-    <Grid
+    <Window.Resources>
+        <Style x:Key="Header" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="38"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <Setter Property="Background" Value="{StaticResource MainWindow.Header.Background}"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
         
+    </Window.Resources>
+
+    <Grid
+        Background="{StaticResource Page.Background}"
     >
         <Grid.ColumnDefinitions>
             <!-- Content -->
@@ -26,10 +37,8 @@
             x:Name="header"
             Grid.Row="0"
             Grid.Column="0"
+            Style="{StaticResource Header}"
             Text="Questionnaire"
-            FontFamily="Calibri"
-            TextAlignment="Center"
-            FontSize="38"
             Padding="6"
         ></TextBlock>
 

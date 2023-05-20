@@ -9,8 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameLibrary\GameLibrary.csproj" />
-    <ProjectReference Include="..\Questionnaire\QuestionnaireLibrary.csproj" />
-    <ProjectReference Include="..\ScoreBoardLibrary\ScoreBoardLibrary.csproj" />
     <ProjectReference Include="..\TriviaApiLibrary\TriviaApiLibrary.csproj" />
   </ItemGroup>
 

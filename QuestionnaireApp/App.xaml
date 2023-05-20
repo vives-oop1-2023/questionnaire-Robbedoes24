@@ -4,6 +4,48 @@
              xmlns:local="clr-namespace:QuestionnaireApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Defining colors -->
+        <Color x:Key="Blurple">#5865F2</Color>
+        <Color x:Key="Green">#57F287</Color>
+        <Color x:Key="Yellow">#FEE75C</Color>
+        <Color x:Key="Fuchsia">#EB459E</Color>
+        <Color x:Key="Red">#ED4245</Color>
+        <Color x:Key="White">#FFF</Color>
+        <Color x:Key="Black">#23272A</Color>
+        <Color x:Key="Darkgray1">#1e1f22</Color>
+        <Color x:Key="Darkgray2">#2b2d31</Color>
+        <Color x:Key="Darkgray3">#313338</Color>
+        <Color x:Key="Darkgray4">#383a40</Color>
+        
+        <!-- Define general values -->
+        <FontFamily x:Key="FontFamily">Calibri</FontFamily>
+        <CornerRadius x:Key="CornerRadius">6</CornerRadius>
+
+            <!-- Defining which part of the ui use what color -->
+        <!-- # General -->
+        <SolidColorBrush x:Key="Text.Color" Color="{StaticResource White}"/>
+        <!-- # MainWindow -->
+        <SolidColorBrush x:Key="MainWindow.Header.Background" Color="{StaticResource Darkgray1}"/>
+        
+        <!-- # Pages -->
+        <SolidColorBrush x:Key="Page.Background" Color="{StaticResource Darkgray3}"/>
+       
+        <!-- ## StartPage -->
+        <!-- ## QuestionPage -->
+        
+        
+        <!-- ## EndPage -->
+        <SolidColorBrush x:Key="EndPage.Button.Menu" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="EndPage.Leaderboard.Header.Background" Color="{StaticResource Darkgray2}"/>
+
+        <!-- ## LoadingPage -->
+        <!-- ## AboutPage -->
+
+        <SolidColorBrush x:Key="Button.Answer.Right" Color="{StaticResource Green}" />
+        <SolidColorBrush x:Key="Button.Answer.Wrong" Color="{StaticResource Red}" />
+        
+        <!-- -->
+        
+        
     </Application.Resources>
 </Application>

@@ -9,7 +9,7 @@
       Title="StartPage">
 
     <Grid
-        
+        Background="{StaticResource Page.Background}"
     >
         <Grid.ColumnDefinitions>
             <!-- Content -->

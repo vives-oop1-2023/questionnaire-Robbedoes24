@@ -8,7 +8,10 @@ namespace GameLibrary
 {
     public class Question
     {
-        public Question() { }
+        public Question() 
+        { 
+            Text = string.Empty;
+        }
 
         public Question(string text)
         {
@@ -53,6 +56,15 @@ namespace GameLibrary
             return answers[index];
         }
 
+        public bool ContainsAnswer(Answer answer)
+        {
+            if (answers.Contains(answer))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void AddAnswer(Answer answer)
         {
             answers.Add(answer);
@@ -70,7 +82,9 @@ namespace GameLibrary
 
         public string Text { get; set; }
 
-        private string text = "";
+        public bool Answered { get; set; }
+
         private List<Answer> answers = new List<Answer>();
+
     }
 }

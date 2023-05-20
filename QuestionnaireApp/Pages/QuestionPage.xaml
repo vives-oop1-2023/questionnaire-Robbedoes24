@@ -9,7 +9,7 @@
       Title="QuestionPage">
 
     <Grid
-        
+        Background="{StaticResource Page.Background}"
     >
         <Grid.ColumnDefinitions>
             <!-- QuestionBlock -->

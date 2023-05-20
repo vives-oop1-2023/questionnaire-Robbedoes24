@@ -1,12 +1,12 @@
 ﻿using GameLibrary;
 using QuestionnaireApp.Pages;
-using QuestionnaireLibrary;
-using ScoreBoardLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using TriviaApiLibrary;
 
 namespace QuestionnaireApp
@@ -32,190 +33,142 @@ namespace QuestionnaireApp
         public MainWindow()
         {
             InitializeComponent();
-            // Load previous scores into scoreboard (from file)
-            scoreBoard.LoadFromFile(scoreBoardFilePath);
-            // Start Gameloop
-            GameLoop();
+            // Create new game
+            game = new Game();
+            // set the timer interval (Update rate of approximately 60 FPS)
+            gameLoopTimer.Interval = TimeSpan.FromMilliseconds(16);
+            // Add event handler for tick event of timer
+            gameLoopTimer.Tick += GameLoopTick;
+            // start the timer
+            gameLoopTimer.Start();
         }
 
-        private async void GameLoop()
+        private async void GameLoopTick(object sender, EventArgs e)
         {
-            // Loop Game logic till window is closed
-            while (true)
+            // This methode runs every tick (approximately 60 time a second, with current interval)
+            if (game.State == GameState.unknown && appState != AppState.starting)
             {
-                if (game.State == GameState.uninitialized)
-                {
-                    await StartGame();
-                }
+                // Set state of app to starting
+                appState = AppState.starting;
+                // Reset TaskCompletionSource
+                startEventSource = new TaskCompletionSource<bool>();
+                // Create new start page
+                StartPage startPage = new StartPage(difficulty);
+                // Go to the startpage
+                PageFrame.NavigationService.Navigate(startPage);
+                // Add new eventhandler for startpage
+                startPage.StartGame += new EventHandler<StartGameEventArgs>(ProcessStartEvent);
+                // Wait for eventhandler to be called
+                await startEvent;
+            }
 
-                if (game.State == GameState.loading)
-                {
-                    await LoadData();
-                }
+            if (game.State == GameState.uninitialized && appState != AppState.loading)
+            {
+                // Set state of app to loading
+                appState = AppState.loading;
+                // Create new loading page
+                LoadingPage loadingPage = new LoadingPage();
+                // Go to the loadingpage
+                PageFrame.NavigationService.Navigate(loadingPage);
+                // Get Questions
+                game.Init(new TriviaApi()); //TODO should be awaited
+                // Wait for an extra second
+                await Task.Delay(1000);
+            }
 
-                if (game.State == GameState.playing)
+            if (game.State == GameState.initialized && appState != AppState.answering)
+            {
+                // Set state of app to answering
+                appState = AppState.answering;
+                // Get question from game
+                Question? question = game.GetQuestion();
+                // If no question is given, exit
+                if (question == null)
                 {
-                    await NextQuestion();
+                    return;
                 }
+                // Reset TaskCompletionSource
+                questionEventSource = new TaskCompletionSource<bool>();
+                // Create new question page
+                QuestionPage questionPage = new QuestionPage(question); //TODO fetch question
+                // Go to the questionpage
+                PageFrame.NavigationService.Navigate(questionPage);
+                // Add new eventhandler for questionpage
+                questionPage.QuestionAnswered += new EventHandler<QuestionAnsweredEventArgs>(ProcessQuestionEvent);
+                // Wait for eventhandler to be called
+                await questionEvent;
+            }
 
-                if (game.State == GameState.ending)
-                {
-                    await EndGame();
-                    ResetGameData();
-                }
+            if (game.State == GameState.ended && appState != AppState.ending)
+            {
+                // Set state of app to ending
+                appState = AppState.ending;
+                // Reset TaskCompletionSource
+                endEventSource = new TaskCompletionSource<bool>();
+                // Get Leaderboard from game
+                Leaderboard leaderboard = game.GetLeaderboard();
+                // Create new end page
+                EndPage endPage = new EndPage(leaderboard.TopEntries(amountOfScores));
+                // Go to the endpage
+                PageFrame.NavigationService.Navigate(endPage);
+                // subscribe to event from endpage and call methode when event is called (wait till main menu button is pressed)
+                endPage.ToMainMenu += new EventHandler(ProcessEndEvent);
+                // Wait for eventhandler to be called
+                await endEvent;
             }
         }
 
-        private Task<bool> StartGame()
+        private void ProcessStartEvent(object sender, StartGameEventArgs e)
         {
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-            // Methode to process StartPageEvents
-            void ProcessStartEvent(object sender, StartGameEventArgs e)
-            {
-                // Create a new game
-                game.Initialize(e.PlayerName, e.Difficulty);
+            // Create a new game
+            game.Start(e.Difficulty, e.PlayerName);
 
-                // Mark task as done
-                tcs.SetResult(true);
-            }
+            // Set local difficulty value
+            difficulty = e.Difficulty;
 
-            // Create new start page
-            StartPage startPage = new StartPage(difficulty);
-            // Go to the startpage
-            PageFrame.NavigationService.Navigate(startPage);
-            // Add new eventhandler for startpage
-            startPage.StartGame += new EventHandler<StartGameEventArgs>(ProcessStartEvent);
-            // Wait till event is invoked (button is pressed)
-            return tcs.Task;
+            // Mark task as done
+            startEventSource.SetResult(true);
         }
 
-        private async Task LoadData()
+        void ProcessQuestionEvent(object sender, QuestionAnsweredEventArgs e)
         {
-            // Create new loading page
-            LoadingPage loadingPage = new LoadingPage();
-            // Go to the loadingpage
-            PageFrame.NavigationService.Navigate(loadingPage);
+            // Submit answer
+            game.SubmitAnswer(e.SelectedAnswer);
 
-            // Get Questions
-            await FetchQuestions();
+            // Mark task as done
+            questionEventSource.SetResult(true);
 
-            return;
+            // Set state of app to answered
+            appState = AppState.answered;
         }
 
-        private async Task FetchQuestions()
+        void ProcessEndEvent(object sender, EventArgs e)
         {
-            // Fetch a question for amountOfQuestions
-            for (int i = 0; i < amountOfQuestions; i++)
-            {
-                // Create new empty question
-                Question question = new Question();
-                // Fetch
-                await TriviaApiRequester.RequestRandomQuestion(question, difficulty);
-                question.RandomizeAnswers();
+            // create new game
+            game = new Game();
 
-                questions.Add(question);
-            }
-            return;
+            // Mark task as done
+            endEventSource.SetResult(true);
         }
 
-        private Task<bool> NextQuestion()
-        {
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-            // Methode to process QuestionPageEvents
-            void ProcessQuestionEvent(object sender, QuestionAnsweredEventArgs e)
-            {
-                // If anwsered correctly
-                if (e.AnsweredCorrectly)
-                {
-                    // Add points based on the difficulty
-                    switch (difficulty)
-                    {
-                        case Difficulty.easy:
-                            score.AddPoints(Convert.ToInt32(scoreCorrectAnswer * easyScoreMultiplier));
-                            break;
-                        case Difficulty.medium:
-                            score.AddPoints(Convert.ToInt32(scoreCorrectAnswer * mediumScoreMultiplier));
-                            break;
-                        case Difficulty.hard:
-                            score.AddPoints(Convert.ToInt32(scoreCorrectAnswer * hardScoreMultiplier));
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                // Mark task as done
-                tcs.SetResult(true);
-            }
+        // TaskCompletionSources so we can wait till eventhandler has been executed
+        private static TaskCompletionSource<bool> startEventSource = new TaskCompletionSource<bool>();
+        private static TaskCompletionSource<bool> questionEventSource = new TaskCompletionSource<bool>();
+        private static TaskCompletionSource<bool> endEventSource = new TaskCompletionSource<bool>();
+        Task<bool> startEvent = startEventSource.Task;
+        Task<bool> questionEvent = startEventSource.Task;
+        Task<bool> endEvent = startEventSource.Task;
 
-            // Create new question page
-            QuestionPage questionPage = new QuestionPage(questions[currentQuestion-1]); //TODO fetch question
-            // Go to the questionpage
-            PageFrame.NavigationService.Navigate(questionPage);
-            // Add new eventhandler for questionpage
-            questionPage.QuestionAnswered += new EventHandler<QuestionAnsweredEventArgs>(ProcessQuestionEvent);
-            // Wait till event is invoked (question is answered)
-            return tcs.Task;
-        }
-
-        private Task<bool> EndGame()
-        {
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-            // Methode to process EndPageEvents
-            void ProcessEndEvent(object sender, EventArgs e)
-            {
-                // We don't get any data from the endpage, so we do nothing here.
-                // Mark task as done
-                tcs.SetResult(true);
-            }
-
-            // Add score to scoreboard
-            scoreBoard.AddScore(score);
-            // Create new end page
-            EndPage endPage = new EndPage(scoreBoard.TopScores(scoreboardScores));
-            // Go to the endpage
-            PageFrame.NavigationService.Navigate(endPage);
-            // subscribe to event from endpage and call methode when event is called (wait till main menu button is pressed)
-            endPage.ToMainMenu += new EventHandler(ProcessEndEvent);
-            // Wait till event is invoked (button is pressed)
-            return tcs.Task;
-        }
-
-        private void ResetGameData()
-        {
-            score = new Score();
-            currentQuestion = 0;
-            questions = new List<Question>();
-        }
-
-        // Game Settings
-//        private readonly int amountOfQuestions = 4;
-//        private readonly int scoreboardScores = 5;
-//        private readonly int scoreCorrectAnswer = 100;
-//        private readonly double easyScoreMultiplier = 0.5;
-//        private readonly double mediumScoreMultiplier = 1;
-//        private readonly double hardScoreMultiplier = 1.5;
-//        private readonly string scoreBoardFilePath = "scoreboard.json";
-
-        // Game Data
-            // Should be reset on game end
-//        private Score score = new Score();
-//        private int currentQuestion = 0;
-//        private List<Question> questions = new List<Question>();
-            // Should not be cleared on game end
-//        private ScoreBoard scoreBoard = new ScoreBoard();
-//        private Difficulty difficulty = Difficulty.easy;
-
-
-
+        //
+        private readonly int amountOfScores = 5;
+        private Difficulty difficulty = Difficulty.easy;
         private Game game = new Game();
+        private AppState appState = AppState.unknown;
+        DispatcherTimer gameLoopTimer = new DispatcherTimer();
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            // Save Scoreboard data to file
-            if (scoreBoard.CountScores() > 0)
-            {
-                scoreBoard.SaveToFile(scoreBoardFilePath);
-            }
+            gameLoopTimer.Stop();
         }
     }
 }

@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameLibrary
 {
-    public enum GameState
+    public interface IQuestionApi
     {
-        unknown,
-        uninitialized, 
-        initialized,
-        ended
+        public Task GetRandomQuestion(Question question, Difficulty difficulty);
     }
 }

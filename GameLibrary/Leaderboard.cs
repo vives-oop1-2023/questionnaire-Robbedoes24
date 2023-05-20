@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameLibrary
 {
-    public class Scoreboard
+    public class Leaderboard
     {
         public void AddEntry(string playerName, int playerPoints)
         {
@@ -45,7 +45,7 @@ namespace GameLibrary
             // Add top entries
             for (int i = 0; i < amount; i++)
             {
-                entries.Add(entries[i]);
+                topEntries.Add(entries[i]);
             }
             // return topEntries list
             return topEntries;
@@ -61,7 +61,7 @@ namespace GameLibrary
             try
             {
                 string jsonString = File.ReadAllText(filename);
-                players = JsonSerializer.Deserialize<List<Player>>(jsonString);
+                entries = JsonSerializer.Deserialize<List<Player>>(jsonString);
             }
             catch { return; }
         }
@@ -69,10 +69,11 @@ namespace GameLibrary
         public void SaveToFile(string filename)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(players, options);
+            string jsonString = JsonSerializer.Serialize(entries, options);
 
             File.WriteAllText(filename, jsonString);
         }
 
         private List<Player> entries = new List<Player>();
     }
+}
