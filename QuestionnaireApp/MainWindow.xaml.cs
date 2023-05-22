@@ -77,7 +77,7 @@ namespace QuestionnaireApp
                 // Go to the loadingpage
                 PageFrame.NavigationService.Navigate(loadingPage);
                 // Get Questions
-                game.Init(new TriviaApi()); //TODO should be awaited
+                game.Init(new TriviaApi());
                 // Wait for an extra second
                 await Task.Delay(1000);
             }
@@ -96,7 +96,7 @@ namespace QuestionnaireApp
                 // Reset TaskCompletionSource
                 questionEventSource = new TaskCompletionSource<bool>();
                 // Create new question page
-                QuestionPage questionPage = new QuestionPage(question); //TODO fetch question
+                QuestionPage questionPage = new QuestionPage(question);
                 // Go to the questionpage
                 PageFrame.NavigationService.Navigate(questionPage);
                 // Add new eventhandler for questionpage
