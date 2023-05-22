@@ -32,7 +32,8 @@
        
         <!-- ## StartPage -->
         <!-- ## QuestionPage -->
-        
+        <SolidColorBrush x:Key="Button.Answer.Right" Color="{StaticResource Green}" />
+        <SolidColorBrush x:Key="Button.Answer.Wrong" Color="{StaticResource Red}" />
         
         <!-- ## EndPage -->
         <SolidColorBrush x:Key="EndPage.Button.Menu" Color="{StaticResource Darkgray2}"/>
@@ -40,9 +41,9 @@
 
         <!-- ## LoadingPage -->
         <!-- ## AboutPage -->
-
-        <SolidColorBrush x:Key="Button.Answer.Right" Color="{StaticResource Green}" />
-        <SolidColorBrush x:Key="Button.Answer.Wrong" Color="{StaticResource Red}" />
+        <SolidColorBrush x:Key="About.Title.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="About.Value.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="About.Value.Background" Color="{StaticResource Darkgray4}"/>
         
         <!-- -->
         

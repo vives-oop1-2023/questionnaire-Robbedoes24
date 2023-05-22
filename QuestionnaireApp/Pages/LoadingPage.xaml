@@ -8,8 +8,31 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LoadingPage">
 
+    <Page.Resources>
+        <Style x:Key="LoadingCircle" TargetType="Ellipse">
+            <Setter Property="Height" Value="100"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+            <Setter Property="Stroke" Value="White"/>
+            <Setter Property="StrokeThickness" Value="2"/>
+            <Setter Property="StrokeDashArray" Value="117.5, 39"/>
+        </Style>
+
+        <Style x:Key="LoadingText" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Page.Resources>
+    
     <Grid
-        Background="{StaticResource Page.Background}"
+        VerticalAlignment="Center"
+        HorizontalAlignment="Center"
     >
         <Grid.ColumnDefinitions>
             <!-- Content -->
@@ -17,16 +40,45 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <!-- LoadingText -->
+            <!-- LoadingCircle -->
             <RowDefinition Height="*"/>
+            <!-- LoadingText -->
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <!-- MainMenu Button -->
-        <TextBox
+        <!-- Loading Circle -->
+        <Ellipse
+            Grid.Row="0"
+            Grid.Column="0"
+            Style="{StaticResource LoadingCircle}"
+        >
+            <Ellipse.RenderTransform>
+                <RotateTransform x:Name="Rotation" Angle="0"/>
+            </Ellipse.RenderTransform>
+            <Ellipse.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimation 
+                                Storyboard.TargetName="Rotation"
+                                Storyboard.TargetProperty="Angle"
+                                From="0" To="360"
+                            />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Ellipse.Triggers>
+        </Ellipse>
+
+
+
+        <!-- Loading Text -->
+        <TextBlock
             Grid.Column="0"
             Grid.Row="1"
             x:Name="LoadingText"
             Text="Creating New Game"
+            Style="{StaticResource LoadingText}"
         />
 
     </Grid>

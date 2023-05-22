@@ -8,9 +8,67 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="StartPage">
 
-    <Grid
-        Background="{StaticResource Page.Background}"
-    >
+    <Page.Resources>
+        <Style x:Key="PlayerName" TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CaretBrush" Value="White"/>
+        </Style>
+        
+        <Style x:Key="StartButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Background" Value="{StaticResource EndPage.Button.Menu}"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="60,20"/>
+            <Setter Property="Margin" Value="6"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="Difficulty.Text" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="Difficulty.Selector" TargetType="ComboBox">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
         <Grid.ColumnDefinitions>
             <!-- Content -->
             <ColumnDefinition Width="*"/>
@@ -30,7 +88,8 @@
             Grid.Column="0"
             Grid.Row="0"
             x:Name="PlayerName"
-            Text="Player1"
+            Text="Username"
+            Style="{StaticResource PlayerName}"
         />
 
         <!-- Start Button -->
@@ -40,13 +99,32 @@
             x:Name="StartButton"
             Content="Start"
             Click="OnClickStart"
+            Style="{StaticResource StartButton}"
         />
 
-        <!-- Difficulty selector -->
-        <ComboBox
+        <!-- Difficulty selection -->
+        <StackPanel
             Grid.Column="0"
             Grid.Row="2"
-            x:Name="DifficultySelector"
-        />
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Margin="0,10,0,0"
+        >
+            <!-- Difficulty text -->
+            <TextBlock
+                Text="Difficulty:"
+                Style="{StaticResource Difficulty.Text}"
+            />
+
+            <ComboBox
+                Grid.Column="0"
+                Grid.Row="2"
+                x:Name="DifficultySelector"
+                Style="{StaticResource Difficulty.Selector}"
+                VerticalAlignment="Center"
+                Background="Black"               
+            />
+        </StackPanel>
     </Grid>
 </Page>
