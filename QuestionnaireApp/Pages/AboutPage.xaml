@@ -8,9 +8,209 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AboutPage">
 
+    <Page.Resources>
+        <Style x:Key="Title" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource About.Title.Color}"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="4"/>
+        </Style>
+        <Style x:Key="Value.Box" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource About.Value.Background}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Margin" Value="20,0,20,20"/>
+        </Style>
+        <Style x:Key="Value.Content" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <!--TODO: Change-->
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="10,8,10,8"/>
+        </Style>
+        <Style x:Key="Value.Content.Link" TargetType="Hyperlink">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+        </Style>
+    </Page.Resources>
+    
     <Grid
-        Background="{StaticResource Page.Background}"
+        Margin="15"
     >
-        
+        <Grid.ColumnDefinitions>
+            <!-- Column 1 -->
+            <ColumnDefinition Width="*"/>
+            <!-- Column 2 -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!-- Author & Version -->
+            <RowDefinition Height="Auto"/>
+            <!-- Description -->
+            <RowDefinition Height="*"/>
+            <!-- Github link -->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Author -->
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="2"
+        >
+            <Grid.ColumnDefinitions>
+                <!-- Column 1 -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <!-- Title -->
+                <RowDefinition Height="Auto"/>
+                <!-- Value -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource Title}"
+                Text = "Author:"
+            />
+            <!-- Value -->
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource Value.Box}"
+            >
+                <TextBlock
+                    Text="Rob Cocquyt"
+                    Style="{StaticResource Value.Content}"
+                />
+            </Border>
+        </Grid>
+
+        <!-- Version -->
+        <Grid
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="2"
+        >
+            <Grid.ColumnDefinitions>
+                <!-- Column 1 -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <!-- Title -->
+                <RowDefinition Height="Auto"/>
+                <!-- Value -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource Title}"
+                Text = "Version:"
+            />
+            <!-- Value -->
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource Value.Box}"
+            >
+                <TextBlock
+                    Text="1.0"
+                    Style="{StaticResource Value.Content}"
+                />
+            </Border>
+        </Grid>
+
+        <!-- Description -->
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="2"
+        >
+            <Grid.ColumnDefinitions>
+                <!-- Column 1 -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <!-- Title -->
+                <RowDefinition Height="Auto"/>
+                <!-- Value -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource Title}"
+                Text = "Description:"
+            />
+            <!-- Value -->
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource Value.Box}"
+            >
+                <TextBlock
+                    Text="Placeholder"
+                    Style="{StaticResource Value.Content}"
+                    TextAlignment="Left"
+                />
+            </Border>
+        </Grid>
+
+        <!-- Github link -->
+        <Grid
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="2"
+        >
+            <Grid.ColumnDefinitions>
+                <!-- Column 1 -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <!-- Title -->
+                <RowDefinition Height="Auto"/>
+                <!-- Value -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource Title}"
+                Text = "Project link:"
+            />
+            <!-- Value -->
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource Value.Box}"
+            >
+                <TextBlock
+                    Style="{StaticResource Value.Content}"
+                >
+                    <Hyperlink 
+                        NavigateUri="https://github.com/vives-oop1-2023/questionnaire-Robbedoes24"
+                        RequestNavigate="Hyperlink_RequestNavigate"
+                        Style="{StaticResource Value.Content.Link}"
+                    >
+                        https://github.com/vives-oop1-2023/questionnaire-Robbedoes24
+                    </Hyperlink>
+                </TextBlock>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

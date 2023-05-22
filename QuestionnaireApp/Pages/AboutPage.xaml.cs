@@ -31,5 +31,14 @@ namespace QuestionnaireApp.Pages
             string link = "https://github.com/vives-oop1-2023/questionnaire-Robbedoes24";
             Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
         }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            string url = e.Uri.AbsoluteUri;
+            // Navigate to url
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            // Set handled to true to prevent the default navigation behavior
+            e.Handled = true; 
+        }
     }
 }

@@ -21,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 using TriviaApiLibrary;
 
 namespace QuestionnaireApp
@@ -52,8 +53,13 @@ namespace QuestionnaireApp
                 appState = AppState.starting;
                 // Reset TaskCompletionSource
                 startEventSource = new TaskCompletionSource<bool>();
+                // Show and enable about button
+                AboutButton.Visibility = Visibility.Visible;
+                AboutButton.IsEnabled = true;
                 // Create new start page
                 StartPage startPage = new StartPage(difficulty);
+                // Store startpage in temp variable (for use with about button)
+                this.startPage = startPage;
                 // Go to the startpage
                 PageFrame.NavigationService.Navigate(startPage);
                 // Add new eventhandler for startpage
@@ -126,11 +132,15 @@ namespace QuestionnaireApp
             // Set local difficulty value
             difficulty = e.Difficulty;
 
+            // Hide and disable about button
+            AboutButton.Visibility = Visibility.Collapsed;
+            AboutButton.IsEnabled = false;
+
             // Mark task as done
             startEventSource.SetResult(true);
         }
 
-        void ProcessQuestionEvent(object sender, QuestionAnsweredEventArgs e)
+        private void ProcessQuestionEvent(object sender, QuestionAnsweredEventArgs e)
         {
             // Submit answer
             game.SubmitAnswer(e.SelectedAnswer);
@@ -142,13 +152,27 @@ namespace QuestionnaireApp
             appState = AppState.answered;
         }
 
-        void ProcessEndEvent(object sender, EventArgs e)
+        private void ProcessEndEvent(object sender, EventArgs e)
         {
             // create new game
             game = new Game();
 
             // Mark task as done
             endEventSource.SetResult(true);
+        }
+
+        private void OnAboutClick(object sender, RoutedEventArgs e)
+        {
+            if (PageFrame.NavigationService.Content == this.startPage)
+            {
+                PageFrame.NavigationService.Navigate(this.aboutPage);
+                AboutButton.Content = "Back";
+            }
+            else
+            {
+                PageFrame.NavigationService.Navigate(this.startPage);
+                AboutButton.Content = "About";
+            }
         }
 
         // TaskCompletionSources so we can wait till eventhandler has been executed
@@ -159,12 +183,16 @@ namespace QuestionnaireApp
         Task<bool> questionEvent = startEventSource.Task;
         Task<bool> endEvent = startEventSource.Task;
 
-        //
+        // Game/app variables
         private readonly int amountOfScores = 5;
         private Difficulty difficulty = Difficulty.easy;
         private Game game = new Game();
         private AppState appState = AppState.unknown;
         DispatcherTimer gameLoopTimer = new DispatcherTimer();
+        private readonly AboutPage aboutPage = new AboutPage();
+
+        // Temporary variables
+        private StartPage startPage = new StartPage(Difficulty.easy);
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
