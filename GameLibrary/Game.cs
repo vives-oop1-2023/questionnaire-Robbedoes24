@@ -117,7 +117,7 @@ namespace GameLibrary
         }
 
         // Game Settings
-        private readonly int amountOfQuestions = 2;
+        private readonly int amountOfQuestions = 10;
         private readonly int scoreCorrectAnswer = 100;
         private readonly double easyScoreMultiplier = 0.5;
         private readonly double mediumScoreMultiplier = 1;
