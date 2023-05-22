@@ -1,4 +1,4 @@
-﻿using QuestionnaireLibrary;
+﻿using GameLibrary;
 
 namespace ConsoleApp
 {
