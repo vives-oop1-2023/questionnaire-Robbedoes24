@@ -13,7 +13,7 @@
             <Setter Property="Height" Value="100"/>
             <Setter Property="Width" Value="100"/>
             <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-            <Setter Property="Stroke" Value="White"/>
+            <Setter Property="Stroke" Value="{StaticResource LoadingPage.Circle.Color}"/>
             <Setter Property="StrokeThickness" Value="2"/>
             <Setter Property="StrokeDashArray" Value="117.5, 39"/>
         </Style>
@@ -21,7 +21,7 @@
         <Style x:Key="LoadingText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
             <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <Setter Property="Foreground" Value="{StaticResource LoadingPage.Text.Color}"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="Padding" Value="12"/>
             <Setter Property="Margin" Value="12"/>
@@ -70,8 +70,6 @@
             </Ellipse.Triggers>
         </Ellipse>
 
-
-
         <!-- Loading Text -->
         <TextBlock
             Grid.Column="0"
@@ -80,6 +78,5 @@
             Text="Creating New Game"
             Style="{StaticResource LoadingText}"
         />
-
     </Grid>
 </Page>

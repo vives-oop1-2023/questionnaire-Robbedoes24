@@ -56,11 +56,8 @@ namespace QuestionnaireApp.Pages
 
         async void OnClickAnswer(object sender, RoutedEventArgs e)
         {
-            Button? clickedButton = sender as Button;
-            // TODO: Return exeption if button is null
-
-            Answer? clickedAnswer = clickedButton.Tag as Answer;
-            // TODO: Return exeption if answer is null
+            Button clickedButton = sender as Button;
+            Answer clickedAnswer = clickedButton.Tag as Answer;
 
             //Disable all buttons (no extra clicks)
             Button? correctButton = new Button();
@@ -80,15 +77,15 @@ namespace QuestionnaireApp.Pages
             // Change button background if correct or incorrect and wait a few seconds
             if (clickedAnswer.IsCorrect)
             {
-                clickedButton.Background = FindResource("Button.Answer.Right") as SolidColorBrush;
+                clickedButton.Background = FindResource("QuestionPage.Answer.Background.Right") as SolidColorBrush;
 
                 // wait x seconds to the user can see their answer was correct;
                 await Task.Delay(baseWaitTime);
             }
             else
             {
-                clickedButton.Background = FindResource("Button.Answer.Wrong") as SolidColorBrush;
-                correctButton.Background = FindResource("Button.Answer.Right") as SolidColorBrush;
+                clickedButton.Background = FindResource("QuestionPage.Answer.Background.Wrong") as SolidColorBrush;
+                correctButton.Background = FindResource("QuestionPage.Answer.Background.Right") as SolidColorBrush;
 
                 // wait x seconds to the user can see and read the correct answer;
                 await Task.Delay(baseWaitTime + (millisecondsPerLetter * correctAnswer.Text.Length));

@@ -24,29 +24,54 @@
             <!-- Defining which part of the ui use what color -->
         <!-- # General -->
         <SolidColorBrush x:Key="Text.Color" Color="{StaticResource White}"/>
-        <!-- # MainWindow -->
+        
+        <!-- # MainWindow * -->
         <SolidColorBrush x:Key="MainWindow.Header.Background" Color="{StaticResource Darkgray1}"/>
-        
-        <!-- # Pages -->
-        <SolidColorBrush x:Key="Page.Background" Color="{StaticResource Darkgray3}"/>
-       
-        <!-- ## StartPage -->
-        <!-- ## QuestionPage -->
-        <SolidColorBrush x:Key="Button.Answer.Right" Color="{StaticResource Green}" />
-        <SolidColorBrush x:Key="Button.Answer.Wrong" Color="{StaticResource Red}" />
-        
-        <!-- ## EndPage -->
+        <SolidColorBrush x:Key="MainWindow.Header.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="MainWindow.AboutButton.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="MainWindow.AboutButton.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="MainWindow.AboutButton.Hover.Background" Color="{StaticResource Blurple}"/>
+        <SolidColorBrush x:Key="MainWindow.AboutButton.Hover.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="Mainwindow.Page.Background" Color="{StaticResource Darkgray3}"/>
+
+        <!-- # StartPage -->
+        <!-- TODO -->
+        <SolidColorBrush x:Key="StartPage.temp.color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="StartPage.temp.background" Color="{StaticResource Darkgray2}"/>
+
+        <!-- # LoadingPage * -->
+        <SolidColorBrush x:Key="LoadingPage.Circle.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="LoadingPage.Text.Color" Color="{StaticResource White}"/>
+
+        <!-- # QuestionPage * -->
+        <SolidColorBrush x:Key="QuestionPage.Question.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="QuestionPage.Question.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="QuestionPage.Answer.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="QuestionPage.Answer.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="QuestionPage.Answer.Hover.Background" Color="{StaticResource Blurple}"/>
+        <SolidColorBrush x:Key="QuestionPage.Answer.Hover.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="QuestionPage.Answer.Background.Right" Color="{StaticResource Green}"/>
+        <SolidColorBrush x:Key="QuestionPage.Answer.Background.Wrong" Color="{StaticResource Red}"/>
+
+        <!-- # EndPage * -->
+        <SolidColorBrush x:Key="EndPage.Leaderboard.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="EndPage.Leaderboard.Title.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="EndPage.Leaderboard.Element.Background" Color="{StaticResource Darkgray3}"/>
+        <SolidColorBrush x:Key="EndPage.Leaderboard.Element.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="EndPage.MenuButton.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="EndPage.MenuButton.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="EndPage.MenuButton.Hover.Background" Color="{StaticResource Blurple}"/>
+        <SolidColorBrush x:Key="EndPage.MenuButton.Hover.Color" Color="{StaticResource White}"/>
+
+        <!-- # AboutPage * -->
+        <SolidColorBrush x:Key="AboutPage.Title.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="AboutPage.Value.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="AboutPage.Value.Color" Color="{StaticResource White}"/>
+
+        <!-- need to remove -->
         <SolidColorBrush x:Key="EndPage.Button.Menu" Color="{StaticResource Darkgray2}"/>
         <SolidColorBrush x:Key="EndPage.Leaderboard.Header.Background" Color="{StaticResource Darkgray2}"/>
 
-        <!-- ## LoadingPage -->
-        <!-- ## AboutPage -->
-        <SolidColorBrush x:Key="About.Title.Color" Color="{StaticResource White}"/>
-        <SolidColorBrush x:Key="About.Value.Color" Color="{StaticResource White}"/>
-        <SolidColorBrush x:Key="About.Value.Background" Color="{StaticResource Darkgray4}"/>
-        
-        <!-- -->
-        
-        
+
     </Application.Resources>
 </Application>

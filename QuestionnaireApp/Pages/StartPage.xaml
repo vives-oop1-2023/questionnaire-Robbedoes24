@@ -13,13 +13,13 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource StartPage.temp.color}"/>
             <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="CaretBrush" Value="{StaticResource StartPage.temp.color}"/>
         </Style>
         
         <Style x:Key="StartButton" TargetType="Button">
@@ -36,26 +36,26 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
             <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Background" Value="{StaticResource EndPage.Button.Menu}"/>
-            <Setter Property="Foreground" Value="{StaticResource Text.Color}"/>
+            <Setter Property="Background" Value="{StaticResource StartPage.temp.background}"/>
+            <Setter Property="Foreground" Value="{StaticResource StartPage.temp.color}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="60,20"/>
             <Setter Property="Margin" Value="6"/>
             <Style.Resources>
                 <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="20"/>
+                    <Setter Property="CornerRadius" Value="{StaticResource CornerRadius}"/>
                 </Style>
             </Style.Resources>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="{StaticResource StartPage.temp.background}"/>
+                    <Setter Property="Foreground" Value="{StaticResource StartPage.temp.color}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="Difficulty.Text" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource StartPage.temp.color}"/>
             <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Margin" Value="6"/>
