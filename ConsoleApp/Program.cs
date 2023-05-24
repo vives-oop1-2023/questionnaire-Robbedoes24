@@ -175,7 +175,7 @@ namespace ConsoleApp
 
             game.Init(questions);
 
-            // - giving it an api to request questions
+            // - giving it an api to request questions (not working in this example)
             //game.Init(new TriviaApi());
 
             // Now we need to check if the state has swithed to initialized
