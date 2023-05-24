@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameLibrary\GameLibrary.csproj" />
+    <ProjectReference Include="..\TriviaApiLibrary\TriviaApiLibrary.csproj" />
   </ItemGroup>
 
 </Project>
