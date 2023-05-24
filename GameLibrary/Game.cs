@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace GameLibrary
 {
     public class Game
@@ -13,7 +8,7 @@ namespace GameLibrary
             State = GameState.unknown;
         }
 
-        public void Start(Difficulty difficulty, string playername)
+        public void Start(Difficulty difficulty, string playername, int amountOfQuestions = 10)
         {
             if (State != GameState.unknown)
             {
@@ -22,6 +17,7 @@ namespace GameLibrary
 
             this.difficulty = difficulty;
             player = new Player(playername);
+            this.amountOfQuestions = amountOfQuestions;
 
             // Set state to uninitialized so the app knows it needs to initialize the game
             State = GameState.uninitialized;
@@ -52,6 +48,44 @@ namespace GameLibrary
             State = GameState.initialized;
         }
 
+        public void Init(List<Question> questions)
+        {
+            if (State != GameState.uninitialized)
+            {
+                throw new Exception("Shouldn't initialize a game that is already initialized!");
+            }
+
+            // Add all questions
+            for (int i = 0; i < questions.Count; i++)
+            {
+                this.questions.Add(questions[i]);
+            }
+
+            // Randomize questions using the Fisher–Yates shuffle
+            Random gen = new Random();
+            // For the amount of items in questions
+            for (int i = this.questions.Count - 1; i > 0; i--)
+            {
+                //get random index of remaning items
+                int k = gen.Next(i + 1);
+                // store object in temp variable
+                var temp = this.questions[k];
+                // move object of selected index to last remaining place
+                this.questions[k] = this.questions[i];
+                // move temp object to index of previous item
+                this.questions[i] = temp;
+            }
+
+            // Load previous scores from file (if exist)
+            leaderboard.LoadFromFile(LeaderboardSavePath);
+
+            // Set current question to 0
+            questionCounter = 0;
+
+            // Set state to initialized so the app knows the game can be played
+            State = GameState.initialized;
+        }
+
         public Question? GetQuestion()
         {
             if (State != GameState.initialized)
@@ -63,6 +97,12 @@ namespace GameLibrary
             {
                 return questions[questionCounter];
             }
+
+            // Add player to Leaderboard
+            leaderboard.AddEntry(player);
+
+            // Save Leaderboard to file
+            leaderboard.SaveToFile(LeaderboardSavePath);
 
             State = GameState.ended;
             return null;
@@ -107,17 +147,10 @@ namespace GameLibrary
                 throw new Exception("Can't get score of a game that hasn't ended yet!");
             }
 
-            // Add player to Leaderboard
-            leaderboard.AddEntry(player);
-
-            // Save Leaderboard to file
-            leaderboard.SaveToFile(LeaderboardSavePath);
-
             return leaderboard;
         }
 
         // Game Settings
-        private readonly int amountOfQuestions = 10;
         private readonly int scoreCorrectAnswer = 100;
         private readonly double easyScoreMultiplier = 0.5;
         private readonly double mediumScoreMultiplier = 1;
@@ -125,6 +158,7 @@ namespace GameLibrary
         private readonly string LeaderboardSavePath = "Leaderboard.json";
 
         // Game Data
+        private int amountOfQuestions = 10;
         private Difficulty difficulty = Difficulty.easy;
         private Player player = new Player();
         private List<Question> questions = new List<Question>();

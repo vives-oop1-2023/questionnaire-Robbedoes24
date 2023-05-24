@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace GameLibrary
 {
@@ -49,6 +44,16 @@ namespace GameLibrary
             }
             // return topEntries list
             return topEntries;
+        }
+
+        public override string ToString()
+        {
+            string output = "Place - Player - Score\n";
+            for (int i = 0; i < entries.Count; i++)
+            {
+                output += $"{i+1} - {entries[i].Name} - {entries[i].Score}\n";
+            }
+            return output;
         }
 
         public void LoadFromFile(string filename)
