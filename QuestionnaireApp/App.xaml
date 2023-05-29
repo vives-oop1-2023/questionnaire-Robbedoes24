@@ -1,7 +1,7 @@
 ﻿<Application x:Class="QuestionnaireApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:QuestionnaireApp"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <!-- Defining colors -->
@@ -20,12 +20,13 @@
         <!-- Define general values -->
         <FontFamily x:Key="FontFamily">Calibri</FontFamily>
         <CornerRadius x:Key="CornerRadius">6</CornerRadius>
+        <s:Double x:Key="CornerRadiusDouble">6</s:Double>
 
             <!-- Defining which part of the ui use what color -->
         <!-- # General -->
         <SolidColorBrush x:Key="Text.Color" Color="{StaticResource White}"/>
         
-        <!-- # MainWindow * -->
+        <!-- # MainWindow -->
         <SolidColorBrush x:Key="MainWindow.Header.Background" Color="{StaticResource Darkgray1}"/>
         <SolidColorBrush x:Key="MainWindow.Header.Color" Color="{StaticResource White}"/>
         <SolidColorBrush x:Key="MainWindow.AboutButton.Background" Color="{StaticResource Darkgray2}"/>
@@ -33,17 +34,32 @@
         <SolidColorBrush x:Key="MainWindow.AboutButton.Hover.Background" Color="{StaticResource Blurple}"/>
         <SolidColorBrush x:Key="MainWindow.AboutButton.Hover.Color" Color="{StaticResource White}"/>
         <SolidColorBrush x:Key="Mainwindow.Page.Background" Color="{StaticResource Darkgray3}"/>
+        <SolidColorBrush x:Key="Mainwindow.Progressbar.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="Mainwindow.Progressbar.Color" Color="{StaticResource Blurple}"/>
+        <SolidColorBrush x:Key="Mainwindow.Progressbar.Text.Color" Color="{StaticResource White}"/>
 
         <!-- # StartPage -->
-        <!-- TODO -->
-        <SolidColorBrush x:Key="StartPage.temp.color" Color="{StaticResource White}"/>
-        <SolidColorBrush x:Key="StartPage.temp.background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="StartPage.Username.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="StartPage.Username.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="StartPage.Username.Caret.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="StartPage.StartButton.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="StartPage.StartButton.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="StartPage.StartButton.Hover.Background" Color="{StaticResource Blurple}"/>
+        <SolidColorBrush x:Key="StartPage.StartButton.Hover.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="StartPage.DificultyText.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="StartPage.DificultySelection.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="StartPage.DificultySelection.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="StartPage.DificultySelection.Hover.Background" Color="{StaticResource Blurple}"/>
+        <SolidColorBrush x:Key="StartPage.DificultySelection.Hover.Color" Color="{StaticResource White}"/>
+        <SolidColorBrush x:Key="StartPage.DificultySelection.Item.Background" Color="{StaticResource Darkgray2}"/>
+        <SolidColorBrush x:Key="StartPage.DificultySelection.Item.Hover.Background" Color="{StaticResource Blurple}"/>
+        <SolidColorBrush x:Key="StartPage.DificultySelection.Item.Selected.Background" Color="{StaticResource Fuchsia}"/>
 
-        <!-- # LoadingPage * -->
+        <!-- # LoadingPage -->
         <SolidColorBrush x:Key="LoadingPage.Circle.Color" Color="{StaticResource White}"/>
         <SolidColorBrush x:Key="LoadingPage.Text.Color" Color="{StaticResource White}"/>
 
-        <!-- # QuestionPage * -->
+        <!-- # QuestionPage -->
         <SolidColorBrush x:Key="QuestionPage.Question.Background" Color="{StaticResource Darkgray2}"/>
         <SolidColorBrush x:Key="QuestionPage.Question.Color" Color="{StaticResource White}"/>
         <SolidColorBrush x:Key="QuestionPage.Answer.Background" Color="{StaticResource Darkgray2}"/>
@@ -53,7 +69,7 @@
         <SolidColorBrush x:Key="QuestionPage.Answer.Background.Right" Color="{StaticResource Green}"/>
         <SolidColorBrush x:Key="QuestionPage.Answer.Background.Wrong" Color="{StaticResource Red}"/>
 
-        <!-- # EndPage * -->
+        <!-- # EndPage -->
         <SolidColorBrush x:Key="EndPage.Leaderboard.Background" Color="{StaticResource Darkgray2}"/>
         <SolidColorBrush x:Key="EndPage.Leaderboard.Title.Color" Color="{StaticResource White}"/>
         <SolidColorBrush x:Key="EndPage.Leaderboard.Element.Background" Color="{StaticResource Darkgray3}"/>
@@ -63,15 +79,9 @@
         <SolidColorBrush x:Key="EndPage.MenuButton.Hover.Background" Color="{StaticResource Blurple}"/>
         <SolidColorBrush x:Key="EndPage.MenuButton.Hover.Color" Color="{StaticResource White}"/>
 
-        <!-- # AboutPage * -->
+        <!-- # AboutPage -->
         <SolidColorBrush x:Key="AboutPage.Title.Color" Color="{StaticResource White}"/>
         <SolidColorBrush x:Key="AboutPage.Value.Background" Color="{StaticResource Darkgray2}"/>
         <SolidColorBrush x:Key="AboutPage.Value.Color" Color="{StaticResource White}"/>
-
-        <!-- need to remove -->
-        <SolidColorBrush x:Key="EndPage.Button.Menu" Color="{StaticResource Darkgray2}"/>
-        <SolidColorBrush x:Key="EndPage.Leaderboard.Header.Background" Color="{StaticResource Darkgray2}"/>
-
-
     </Application.Resources>
 </Application>
