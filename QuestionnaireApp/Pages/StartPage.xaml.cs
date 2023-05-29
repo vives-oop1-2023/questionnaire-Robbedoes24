@@ -23,7 +23,7 @@ namespace QuestionnaireApp.Pages
         void OnClickStart (object sender, RoutedEventArgs e)
         {
             // Get PlayerName from textbox
-            string playerName = PlayerName.Text;
+            string playerName = PlayerNameValue.Text;
 
             // Get Difficulty from combobox
             Difficulty difficulty = (Difficulty)DifficultySelector.SelectedIndex;
