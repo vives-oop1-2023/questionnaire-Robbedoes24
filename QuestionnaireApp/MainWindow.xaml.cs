@@ -19,6 +19,8 @@ namespace QuestionnaireApp
             InitializeComponent();
             // Create new game
             game = new Game();
+            // Set some one time values
+            ProgressBar.Maximum = amountOfQuestions;
             // set the timer interval (Update rate of approximately 60 FPS)
             gameLoopTimer.Interval = TimeSpan.FromMilliseconds(16);
             // Add event handler for tick event of timer
@@ -76,10 +78,16 @@ namespace QuestionnaireApp
                 {
                     return;
                 }
+                // Add 1 to current question
+                currentQuestion++;
                 // Reset TaskCompletionSource
                 questionEventSource = new TaskCompletionSource<bool>();
                 // Create new question page
                 QuestionPage questionPage = new QuestionPage(question);
+                // Show progressbar
+                QuestionProgressBar.Visibility = Visibility.Visible;
+                ProgressBar.Value = currentQuestion;
+                ProgressText.Text = $"{currentQuestion} / {amountOfQuestions}";
                 // Go to the questionpage
                 PageFrame.NavigationService.Navigate(questionPage);
                 // Add new eventhandler for questionpage
@@ -94,6 +102,8 @@ namespace QuestionnaireApp
                 appState = AppState.ending;
                 // Reset TaskCompletionSource
                 endEventSource = new TaskCompletionSource<bool>();
+                // Hide progressbar
+                QuestionProgressBar.Visibility = Visibility.Collapsed;
                 // Get Leaderboard from game
                 Leaderboard leaderboard = game.GetLeaderboard();
                 // Create new end page
@@ -110,7 +120,7 @@ namespace QuestionnaireApp
         private void ProcessStartEvent(object sender, StartGameEventArgs e)
         {
             // Create a new game
-            game.Start(e.Difficulty, e.PlayerName);
+            game.Start(e.Difficulty, e.PlayerName, amountOfQuestions);
 
             // Set local difficulty value
             difficulty = e.Difficulty;
@@ -140,6 +150,9 @@ namespace QuestionnaireApp
             // create new game
             game = new Game();
 
+            // Reset current question
+            currentQuestion = 0;
+
             // Mark task as done
             endEventSource.SetResult(true);
         }
@@ -167,6 +180,8 @@ namespace QuestionnaireApp
         Task<bool> endEvent = startEventSource.Task;
 
         // Game/app variables
+        private readonly int amountOfQuestions = 10;
+        private int currentQuestion = 0;
         private readonly int amountOfScores = 5;
         private Difficulty difficulty = Difficulty.easy;
         private Game game = new Game();
