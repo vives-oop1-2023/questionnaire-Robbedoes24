@@ -22,10 +22,7 @@
         <CornerRadius x:Key="CornerRadius">6</CornerRadius>
         <s:Double x:Key="CornerRadiusDouble">6</s:Double>
 
-            <!-- Defining which part of the ui use what color -->
-        <!-- # General -->
-        <SolidColorBrush x:Key="Text.Color" Color="{StaticResource White}"/>
-        
+        <!-- Defining which part of the ui use what color -->
         <!-- # MainWindow -->
         <SolidColorBrush x:Key="MainWindow.Header.Background" Color="{StaticResource Darkgray1}"/>
         <SolidColorBrush x:Key="MainWindow.Header.Color" Color="{StaticResource White}"/>
