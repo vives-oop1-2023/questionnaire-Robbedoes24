@@ -143,7 +143,7 @@ It contains the player name and score.
 Instead, use the ChangeName, AddScore, RemoveScore and ResetScore methods.
 
 ```mermaid
-    lassDiagram
+    classDiagram
        class Player {
            +Player()
            +Player(playerName: string)
@@ -183,12 +183,7 @@ It contains a list of players.
 The IQuestionApi interface can be used to get questions from an API.
 This interface is used in the `Game` class and can be given as an argument with the Init method.
 
-```mermaid
-    classDiagram
-        interface IQuestionApi {
-            +GetRandomQuestion(question: Question, difficulty: Difficulty): Task
-        }
-```
+The interface expects a `GetRandomQuestion` method that returns a `Task` with a `Question` and a `Difficulty` as arguments.
 
 ### 3.7 Difficulty Enum
 
