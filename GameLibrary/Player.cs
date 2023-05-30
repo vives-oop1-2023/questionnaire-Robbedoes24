@@ -3,11 +3,16 @@ namespace GameLibrary
 {
     public class Player
     {
-        public Player() { }
+        public Player() 
+        { 
+            Name = string.Empty;
+            Score = 0;
+        }
 
         public Player(string playerName)
         {
             Name = playerName;
+            Score = 0;
         }
 
         public Player(string playerName, int playerScore)

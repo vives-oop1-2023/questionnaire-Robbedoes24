@@ -32,12 +32,8 @@ namespace GameLibrary
             {
                 //get random index of remaning items
                 int k = gen.Next(i + 1);
-                // store object in temp variable
-                var temp = answers[k];
-                // move object of selected index to last remaining place
-                answers[k] = answers[i];
-                // move temp object to index of previous item
-                answers[i] = temp;
+                // Swap values
+                (answers[i], answers[k]) = (answers[k], answers[i]);
             }
         }
 
@@ -79,7 +75,6 @@ namespace GameLibrary
 
         public bool Answered { get; set; }
 
-        private List<Answer> answers = new List<Answer>();
-
+        private readonly List<Answer> answers = new List<Answer>();
     }
 }

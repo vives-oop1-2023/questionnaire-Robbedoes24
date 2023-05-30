@@ -66,7 +66,7 @@ namespace GameLibrary
             try
             {
                 string jsonString = File.ReadAllText(filename);
-                entries = JsonSerializer.Deserialize<List<Player>>(jsonString);
+                entries = JsonSerializer.Deserialize<List<Player>>(jsonString)!;
             }
             catch { return; }
         }

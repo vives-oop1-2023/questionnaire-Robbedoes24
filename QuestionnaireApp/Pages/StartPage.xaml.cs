@@ -33,7 +33,7 @@ namespace QuestionnaireApp.Pages
         }
 
         // Create eventhandler that will be called when start button is pressed
-        public event EventHandler<StartGameEventArgs> StartGame;
+        public event EventHandler<StartGameEventArgs> StartGame = delegate { };
     }
 
     public class StartGameEventArgs : EventArgs
@@ -46,9 +46,6 @@ namespace QuestionnaireApp.Pages
 
         public string PlayerName { get; private set; }
         public Difficulty Difficulty { get; private set; }
-
-        private string playerName;
-        private Difficulty difficulty;
     }
 
 }

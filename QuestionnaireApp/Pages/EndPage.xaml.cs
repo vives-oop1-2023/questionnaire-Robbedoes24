@@ -18,8 +18,8 @@ namespace QuestionnaireApp.Pages
             for (int i = 0; i < TopScores.Count; i++)
             {
                 // Get styles from page resources
-                Style elementStyle = this.FindResource("Leaderboard.List.Element") as Style;
-                Style textStyle = this.FindResource("Leaderboard.List.Element.Text") as Style;
+                Style? elementStyle = FindResource("Leaderboard.List.Element") as Style;
+                Style? textStyle = FindResource("Leaderboard.List.Element.Text") as Style;
 
                 // Create Textblock that holds place
                 TextBlock place = new TextBlock();
@@ -43,7 +43,6 @@ namespace QuestionnaireApp.Pages
 
                 // Create grid
                 Grid grid = new Grid();
-                ColumnDefinition columnDefinition = new ColumnDefinition();
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1.0, GridUnitType.Star) });
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1.0, GridUnitType.Auto) });
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1.0, GridUnitType.Star) });
@@ -72,6 +71,6 @@ namespace QuestionnaireApp.Pages
         }
 
         // Create eventhandler that will be called when main menu button is pressed
-        public event EventHandler ToMainMenu;
+        public event EventHandler ToMainMenu = delegate { };
     }
 }

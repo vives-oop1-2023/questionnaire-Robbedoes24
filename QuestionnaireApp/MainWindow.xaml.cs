@@ -29,7 +29,7 @@ namespace QuestionnaireApp
             gameLoopTimer.Start();
         }
 
-        private async void GameLoopTick(object sender, EventArgs e)
+        private async void GameLoopTick(object? sender, EventArgs e)
         {
             // This methode runs every tick (approximately 60 time a second, with current interval)
             if (game.State == GameState.unknown && appState != AppState.starting)
@@ -117,7 +117,7 @@ namespace QuestionnaireApp
             }
         }
 
-        private void ProcessStartEvent(object sender, StartGameEventArgs e)
+        private void ProcessStartEvent(object? sender, StartGameEventArgs e)
         {
             // Create a new game
             game.Start(e.Difficulty, e.PlayerName, amountOfQuestions);
@@ -133,7 +133,7 @@ namespace QuestionnaireApp
             startEventSource.SetResult(true);
         }
 
-        private void ProcessQuestionEvent(object sender, QuestionAnsweredEventArgs e)
+        private void ProcessQuestionEvent(object? sender, QuestionAnsweredEventArgs e)
         {
             // Submit answer
             game.SubmitAnswer(e.SelectedAnswer);
@@ -145,7 +145,7 @@ namespace QuestionnaireApp
             appState = AppState.answered;
         }
 
-        private void ProcessEndEvent(object sender, EventArgs e)
+        private void ProcessEndEvent(object? sender, EventArgs e)
         {
             // create new game
             game = new Game();
@@ -175,9 +175,9 @@ namespace QuestionnaireApp
         private static TaskCompletionSource<bool> startEventSource = new TaskCompletionSource<bool>();
         private static TaskCompletionSource<bool> questionEventSource = new TaskCompletionSource<bool>();
         private static TaskCompletionSource<bool> endEventSource = new TaskCompletionSource<bool>();
-        Task<bool> startEvent = startEventSource.Task;
-        Task<bool> questionEvent = startEventSource.Task;
-        Task<bool> endEvent = startEventSource.Task;
+        private readonly Task<bool> startEvent = startEventSource.Task;
+        private readonly Task<bool> questionEvent = startEventSource.Task;
+        private readonly Task<bool> endEvent = startEventSource.Task;
 
         // Game/app variables
         private readonly int amountOfQuestions = 10;
@@ -186,7 +186,7 @@ namespace QuestionnaireApp
         private Difficulty difficulty = Difficulty.easy;
         private Game game = new Game();
         private AppState appState = AppState.unknown;
-        DispatcherTimer gameLoopTimer = new DispatcherTimer();
+        private readonly DispatcherTimer gameLoopTimer = new DispatcherTimer();
         private readonly AboutPage aboutPage = new AboutPage();
 
         // Temporary variables

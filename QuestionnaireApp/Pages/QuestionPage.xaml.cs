@@ -47,17 +47,17 @@ namespace QuestionnaireApp.Pages
 
         async void OnClickAnswer(object sender, RoutedEventArgs e)
         {
-            Button clickedButton = sender as Button;
-            Answer clickedAnswer = clickedButton.Tag as Answer;
+            if (sender is not Button clickedButton) { return; }
+            if (clickedButton.Tag is not Answer clickedAnswer) { return; }
 
             //Disable all buttons (no extra clicks)
             Button? correctButton = new Button();
             Answer? correctAnswer = new Answer("",false);
             for (int i = 0; i < AnswerList.Children.Count; i++)
             {
-                Button button = AnswerList.Children[i] as Button;
+                if (AnswerList.Children[i] is not Button button) { return; }
                 button.IsEnabled = false;
-                Answer answer = button.Tag as Answer;
+                if (button.Tag is not Answer answer) { return; }
                 if (answer.IsCorrect)
                 {
                     correctButton = button;
@@ -87,7 +87,7 @@ namespace QuestionnaireApp.Pages
         }
 
         // Create eventhandler that will be called when question is answered
-        public event EventHandler<QuestionAnsweredEventArgs> QuestionAnswered;
+        public event EventHandler<QuestionAnsweredEventArgs> QuestionAnswered = delegate { };
 
         private readonly int baseWaitTime = 500;
         private readonly int millisecondsPerLetter = 200;

@@ -39,7 +39,7 @@ namespace GameLibrary
             }
 
             // Load previous scores from file (if exist)
-            leaderboard.LoadFromFile(LeaderboardSavePath);
+            leaderboard.LoadFromFile(leaderboardSavePath);
 
             // Set current question to 0
             questionCounter = 0;
@@ -68,16 +68,12 @@ namespace GameLibrary
             {
                 //get random index of remaning items
                 int k = gen.Next(i + 1);
-                // store object in temp variable
-                var temp = this.questions[k];
-                // move object of selected index to last remaining place
-                this.questions[k] = this.questions[i];
-                // move temp object to index of previous item
-                this.questions[i] = temp;
+                // swap values
+                (this.questions[i], this.questions[k]) = (this.questions[k], this.questions[i]);
             }
 
             // Load previous scores from file (if exist)
-            leaderboard.LoadFromFile(LeaderboardSavePath);
+            leaderboard.LoadFromFile(leaderboardSavePath);
 
             // Set current question to 0
             questionCounter = 0;
@@ -102,7 +98,7 @@ namespace GameLibrary
             leaderboard.AddEntry(player);
 
             // Save Leaderboard to file
-            leaderboard.SaveToFile(LeaderboardSavePath);
+            leaderboard.SaveToFile(leaderboardSavePath);
 
             State = GameState.ended;
             return null;
@@ -155,15 +151,15 @@ namespace GameLibrary
         private readonly double easyScoreMultiplier = 0.5;
         private readonly double mediumScoreMultiplier = 1;
         private readonly double hardScoreMultiplier = 1.5;
-        private readonly string LeaderboardSavePath = "Leaderboard.json";
+        private readonly string leaderboardSavePath = "Leaderboard.json";
 
         // Game Data
         private int amountOfQuestions = 10;
         private Difficulty difficulty = Difficulty.easy;
         private Player player = new Player();
-        private List<Question> questions = new List<Question>();
+        private readonly List<Question> questions = new List<Question>();
         private int questionCounter = 0;
-        private Leaderboard leaderboard = new Leaderboard();
+        private readonly Leaderboard leaderboard = new Leaderboard();
 
         public GameState State { get; private set; }
     }
