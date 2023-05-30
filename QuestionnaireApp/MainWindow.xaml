@@ -3,11 +3,132 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuestionnaireApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
+        Title="MainWindow" MinHeight="425" MinWidth="640"
+        Height="450" Width="800" Closing="Window_Closing">
+    <Window.Resources>
+        <Style x:Key="Header" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="38"/>
+            <Setter Property="Background" Value="{StaticResource MainWindow.Header.Background}"/>
+            <Setter Property="Foreground" Value="{StaticResource MainWindow.Header.Color}"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="AboutButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Background" Value="{StaticResource MainWindow.AboutButton.Background}"/>
+            <Setter Property="Foreground" Value="{StaticResource MainWindow.AboutButton.Color}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Margin" Value="6"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="{StaticResource CornerRadius}"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource MainWindow.AboutButton.Hover.Background}"/>
+                    <Setter Property="Foreground" Value="{StaticResource MainWindow.AboutButton.Hover.Color}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="Progressbar.Grid" TargetType="Grid">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+
+        <Style x:Key="Progressbar.Bar" TargetType="ProgressBar">
+            <Setter Property="Template" Value="{DynamicResource ProgressBarTemplateRoundedCorners}"/>
+            <Setter Property="Background" Value="{StaticResource Mainwindow.Progressbar.Background}"/>
+            <Setter Property="Foreground" Value="{StaticResource Mainwindow.Progressbar.Color}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="{StaticResource CornerRadius}"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style x:Key="Progressbar.Text" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="{StaticResource Mainwindow.Progressbar.Text.Color}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Text" Value="0/0"/>
+        </Style>
+            
+        <ControlTemplate x:Key="ProgressBarTemplateRoundedCorners" TargetType="{x:Type ProgressBar}">
+            <Grid x:Name="TemplateRoot">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Determinate"/>
+                        <VisualState x:Name="Indeterminate">
+                            <Storyboard RepeatBehavior="Forever">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                    <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                </DoubleAnimationUsingKeyFrames>
+                                <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                    <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
+                                    <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
+                                    <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                </PointAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+                <Rectangle x:Name="PART_Track"/>
+                <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
+                    <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" RadiusX="{StaticResource CornerRadiusDouble}" RadiusY="{StaticResource CornerRadiusDouble}"/>
+                    <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" RadiusX="{StaticResource CornerRadiusDouble}" RadiusY="{StaticResource CornerRadiusDouble}">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </Grid>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                        <Setter.Value>
+                            <RotateTransform Angle="-90"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsIndeterminate" Value="true">
+                    <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
     <Grid
-        
+        Background="{StaticResource Mainwindow.Page.Background}"
     >
         <Grid.ColumnDefinitions>
             <!-- Content -->
@@ -26,21 +147,45 @@
             x:Name="header"
             Grid.Row="0"
             Grid.Column="0"
+            Style="{StaticResource Header}"
             Text="Questionnaire"
-            FontFamily="Calibri"
-            TextAlignment="Center"
-            FontSize="38"
             Padding="6"
         ></TextBlock>
+        
+        <!-- About Button -->
+        <Button
+            x:Name="AboutButton"
+            Grid.Row="0"
+            Grid.Column="0"
+            Click="OnAboutClick"
+            ClickMode="Release"
+            Content="About"
+            Style="{StaticResource AboutButton}"
+        />
+
+        <!-- Question Progressbar -->
+        <Grid
+            x:Name="QuestionProgressBar"
+            Grid.Row="0"
+            Grid.Column="0"
+            Style="{StaticResource Progressbar.Grid}"
+        >
+            <ProgressBar
+                x:Name="ProgressBar"
+                Style="{StaticResource Progressbar.Bar}"
+            />
+            <TextBlock
+                x:Name="ProgressText"
+                Style="{StaticResource Progressbar.Text}"
+            />
+        </Grid>
 
         <!-- Page (via frame) -->
         <Frame
             Grid.Row="1"
             Grid.Column="0"
             x:Name="PageFrame"
-            Content="Frame"
-            NavigationUIVisibility="Hidden" 
+            NavigationUIVisibility="Hidden"
         />
-
     </Grid>
 </Window>

@@ -3,14 +3,65 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:QuestionnaireApp.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="QuestionPage">
 
-    <Grid
-        
-    >
+    <Page.Resources>
+        <Style x:Key="Question" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Foreground" Value="{StaticResource QuestionPage.Question.Color}"/>
+            <Setter Property="Background" Value="{StaticResource QuestionPage.Question.Background}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="12"/>
+        </Style>
+
+        <Style x:Key="AnswerButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Margin="{TemplateBinding Margin}" 
+                            Padding="{TemplateBinding Padding}">
+                            <TextBlock
+                                TextWrapping="Wrap"
+                                Text="{TemplateBinding Content}"
+                                TextAlignment="Center"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                            />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Background" Value="{StaticResource QuestionPage.Answer.Background}"/>
+            <Setter Property="Foreground" Value="{StaticResource QuestionPage.Answer.Color}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Margin" Value="6,0,6,4"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="{StaticResource CornerRadius}"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource QuestionPage.Answer.Hover.Background}"/>
+                    <Setter Property="Foreground" Value="{StaticResource QuestionPage.Answer.Hover.Color}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
         <Grid.ColumnDefinitions>
             <!-- QuestionBlock -->
             <ColumnDefinition Width="*"/>
@@ -25,6 +76,7 @@
         <Grid
             Grid.Column="0"
             Grid.Row="0"
+            VerticalAlignment="Center"
         >
             <Grid.ColumnDefinitions>
                 <!-- content -->
@@ -45,6 +97,7 @@
                 Name="Question"
                 Text="Question"
                 TextAlignment="Center"
+                Style="{StaticResource Question}"
             />
 
             <!-- AnswerList -->

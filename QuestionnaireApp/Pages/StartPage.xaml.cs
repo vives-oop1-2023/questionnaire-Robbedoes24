@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using TriviaApiLibrary;
+using GameLibrary;
 
 namespace QuestionnaireApp.Pages
 {
@@ -33,11 +22,9 @@ namespace QuestionnaireApp.Pages
 
         void OnClickStart (object sender, RoutedEventArgs e)
         {
-            // Get difficulty from selector
-            //TODO: Implement selector
-
             // Get PlayerName from textbox
-            string playerName = PlayerName.Text;
+            string playerName = PlayerNameValue.Text;
+
             // Get Difficulty from combobox
             Difficulty difficulty = (Difficulty)DifficultySelector.SelectedIndex;
 
@@ -46,7 +33,7 @@ namespace QuestionnaireApp.Pages
         }
 
         // Create eventhandler that will be called when start button is pressed
-        public event EventHandler<StartGameEventArgs> StartGame;
+        public event EventHandler<StartGameEventArgs> StartGame = delegate { };
     }
 
     public class StartGameEventArgs : EventArgs
@@ -59,9 +46,6 @@ namespace QuestionnaireApp.Pages
 
         public string PlayerName { get; private set; }
         public Difficulty Difficulty { get; private set; }
-
-        private string playerName;
-        private Difficulty difficulty;
     }
 
 }

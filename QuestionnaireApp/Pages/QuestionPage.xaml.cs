@@ -1,18 +1,9 @@
-﻿using QuestionnaireLibrary;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using GameLibrary;
 
 namespace QuestionnaireApp.Pages
 {
@@ -48,54 +39,68 @@ namespace QuestionnaireApp.Pages
                 button.Content = answer.Text;
                 button.Tag = answer;
                 button.Click += new RoutedEventHandler(OnClickAnswer);
+                button.Style = FindResource("AnswerButton") as Style;
 
                 AnswerList.Children.Add(button);
             }
         }
 
-        void OnClickAnswer(object sender, RoutedEventArgs e)
+        async void OnClickAnswer(object sender, RoutedEventArgs e)
         {
-            Button? button = sender as Button;
-            // TODO: Return exeption if button is null
+            if (sender is not Button clickedButton) { return; }
+            if (clickedButton.Tag is not Answer clickedAnswer) { return; }
 
-            Answer? answer = button.Tag as Answer;
-            // TODO: Return exeption if answer is null
-
-            // Create var to store if question was answered correctly
-            bool answeredCorrectly = false;
-
-            if (answer.IsCorrect)
+            //Disable all buttons (no extra clicks)
+            Button? correctButton = new Button();
+            Answer? correctAnswer = new Answer("",false);
+            for (int i = 0; i < AnswerList.Children.Count; i++)
             {
-                // Set AnsweredCorrectly to true
-                answeredCorrectly = true;
+                if (AnswerList.Children[i] is not Button button) { return; }
+                button.IsEnabled = false;
+                if (button.Tag is not Answer answer) { return; }
+                if (answer.IsCorrect)
+                {
+                    correctButton = button;
+                    correctAnswer = answer;
+                }
+            }
 
-                // Change background to green
-                //button.Background = this.FindResource("Button.Answer.Right") as SolidColorBrush;
+            // Change button background if correct or incorrect and wait a few seconds
+            if (clickedAnswer.IsCorrect)
+            {
+                clickedButton.Background = FindResource("QuestionPage.Answer.Background.Right") as SolidColorBrush;
+
+                // wait x seconds to the user can see their answer was correct;
+                await Task.Delay(baseWaitTime);
             }
             else
             {
-                // change background to red
-                //button.Background = this.FindResource("Button.Answer.Wrong") as SolidColorBrush;
+                clickedButton.Background = FindResource("QuestionPage.Answer.Background.Wrong") as SolidColorBrush;
+                correctButton.Background = FindResource("QuestionPage.Answer.Background.Right") as SolidColorBrush;
+
+                // wait x seconds to the user can see and read the correct answer;
+                await Task.Delay(baseWaitTime + (millisecondsPerLetter * correctAnswer.Text.Length));
             }
 
             // Call question answered event
-            QuestionAnswered(this, new QuestionAnsweredEventArgs(answeredCorrectly));
+            QuestionAnswered(this, new QuestionAnsweredEventArgs(clickedAnswer));
         }
 
         // Create eventhandler that will be called when question is answered
-        public event EventHandler<QuestionAnsweredEventArgs> QuestionAnswered;
+        public event EventHandler<QuestionAnsweredEventArgs> QuestionAnswered = delegate { };
+
+        private readonly int baseWaitTime = 500;
+        private readonly int millisecondsPerLetter = 200;
     }
 
     public class QuestionAnsweredEventArgs : EventArgs
     {
-        public QuestionAnsweredEventArgs(bool AnsweredCorrectly)
+        public QuestionAnsweredEventArgs(Answer selectedAnswer)
         {
-            this.AnsweredCorrectly = AnsweredCorrectly;
+            SelectedAnswer = selectedAnswer;
         }
 
-        public bool AnsweredCorrectly { get; private set; }
-
-        private bool answeredCorrectly;
+        public Answer SelectedAnswer { get; private set; }
     }
 }
 
