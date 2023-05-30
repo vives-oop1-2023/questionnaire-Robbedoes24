@@ -159,7 +159,7 @@
                 Style="{StaticResource Value.Box}"
             >
                 <TextBlock
-                    Text="Placeholder"
+                    Text="This application is made using WPF and a custom game library. &#x0a;It was made as en example of how this library can be implemented. &#x0a;More information about the project can be found at the link below."
                     Style="{StaticResource Value.Content}"
                     TextAlignment="Left"
                 />
