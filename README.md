@@ -92,7 +92,7 @@ It contains all the questions and answers, the player, the leaderboard and other
             -questions: List<Question>
             -questionCounter: int
             -leaderboard: Leaderboard
-            +State: GameState {get, private set}
+            +State: GameState
         }
 ```
 
@@ -113,8 +113,8 @@ It contains the question and the possible answers.
             +AddAnswer(answer: Answer): void
             +RemoveAnswer(index: int): void
             +CountAnswers(): int
-            +Text: string {get, set}
-            +Answered: bool {get, set}
+            +Text: string
+            +Answered: bool
             -answers: List<Answer>
         }
 ```
@@ -129,8 +129,8 @@ It contains the answer text and if it is the correct answer.
         class Answer {
             +Answer(text: string, isCorrect: bool)
             +ToString(): string
-            +Text: string {get, private set}
-            +IsCorrect: bool {get, private set}
+            +Text: string
+            +IsCorrect: bool
         }
 ```
 
@@ -153,8 +153,8 @@ Instead, use the ChangeName, AddScore, RemoveScore and ResetScore methods.
            +AddScore(score: int): void
            +RemoveScore(score: int): void
            +ResetScore(): void
-           +Name: string {get, set}
-           +Score: int {get, set}
+           +Name: string
+           +Score: int
         }
 ```
 
