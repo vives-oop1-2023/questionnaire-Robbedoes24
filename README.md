@@ -92,7 +92,8 @@ It contains all the questions and answers, the player, the leaderboard and other
             -questions: List<Question>
             -questionCounter: int
             -leaderboard: Leaderboard
-            +State: GameState
+            +<< get >> State: GameState
+            -<< set >> State: GameState
         }
 ```
 
@@ -113,8 +114,10 @@ It contains the question and the possible answers.
             +AddAnswer(answer: Answer): void
             +RemoveAnswer(index: int): void
             +CountAnswers(): int
-            +Text: string
-            +Answered: bool
+            +<< get >> Text: string
+            +<< set >> Text: string
+            +<< get >> Answered: bool
+            +<< set >> Answered: bool
             -answers: List<Answer>
         }
 ```
@@ -129,8 +132,10 @@ It contains the answer text and if it is the correct answer.
         class Answer {
             +Answer(text: string, isCorrect: bool)
             +ToString(): string
-            +Text: string
-            +IsCorrect: bool
+            +<< get >> Text: string
+            -<< set >> Text: string
+            +<< get >> IsCorrect: bool
+            -<< set >> IsCorrect: bool
         }
 ```
 
@@ -145,16 +150,18 @@ Instead, use the ChangeName, AddScore, RemoveScore and ResetScore methods.
 ```mermaid
     classDiagram
        class Player {
-           +Player()
-           +Player(playerName: string)
-           +Player(playerName: string, playerScore: int)
-           +ToString(): string
-           +ChangeName(name: string): void
-           +AddScore(score: int): void
-           +RemoveScore(score: int): void
-           +ResetScore(): void
-           +Name: string
-           +Score: int
+            +Player()
+            +Player(playerName: string)
+            +Player(playerName: string, playerScore: int)
+            +ToString(): string
+            +ChangeName(name: string): void
+            +AddScore(score: int): void
+            +RemoveScore(score: int): void
+            +ResetScore(): void
+            +<< get >> Name: string
+            +<< set >> Name: string
+            +<< get >> Score: int
+            +<< set >> Score: int
         }
 ```
 
@@ -236,7 +243,8 @@ This class is used in the TriviaApi class to convert the api questions to game q
         class TriviaQuestionConverter {
             +TriviaQuestionConverter(question: Question)
             +ProcessQuestion(triviaQuestion: TriviaMultipleChoiceQuestion): void
-            -Question: Question
+            -<< get >> Question: Question
+            -<< set >> Question: Question
         }
         TriviaQuestionConverter --> IQuestionHandler
 ```
